@@ -8,7 +8,30 @@
 ## Description
 This template uses .Net Core 3.1, to create a foundation for a standard CRUD API using the .Net Template Engine to create new projects on demand using `dotnet new`.
 
+## ToDo
+
+✅ Basic Scaffold
+
+✅ Basic CRUD Operations
+
+✅ Add Fluent Validation
+
+✅ Add Custom Pagination
+
+✅ Add Sieve Filters and Sorting
+
+🔲 Add Unit Tests
+
+🔲 Add Integration Tests
+
+🔲 Breakout Environments
+
+🔲 Devops Pipeline
+
+🔲 Add CQRS Config
+
 ## First Time Template Installation
+
 For your first time using this template, follow these steps to get things set up.
 
 1. Clone this repository to your computer in an accessible location: `git clone https://github.com/pdevito3/foundation.api`
