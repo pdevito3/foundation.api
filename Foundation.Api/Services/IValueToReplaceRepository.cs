@@ -1,6 +1,8 @@
 ﻿namespace Foundation.Api.Services
 {
     using Foundation.Api.Data.Entities;
+    using Foundation.Api.Models;
+    using Foundation.Api.Models.Pagination;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,7 +10,7 @@
 
     public interface IValueToReplaceRepository
     {
-        IEnumerable<ValueToReplace> GetValueToReplaces();
+        PagedList<ValueToReplace> GetValueToReplaces(ValueToReplaceParametersDto valueToReplaceParameters);
         Task<ValueToReplace> GetValueToReplaceAsync(int valueToReplaceId);
         ValueToReplace GetValueToReplace(int valueToReplaceId);
         void AddValueToReplace(ValueToReplace valueToReplace);

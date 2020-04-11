@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using AutoMapper;
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Models;
+    using Foundation.Api.Models.Pagination;
     using Foundation.Api.Services;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
@@ -27,19 +29,39 @@
 
 
         [HttpGet(Name = "GetValueToReplaces")]
-        public ActionResult<ValueToReplaceDto> GetValueToReplaces()
+        public ActionResult<IEnumerable<ValueToReplaceDto>> GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
         {
-            var valueToReplaceFromRepo = _valueToReplaceRepository.GetValueToReplaces();
+            var valueToReplacesFromRepo = _valueToReplaceRepository.GetValueToReplaces(valueToReplaceParametersDto);
+            
+            var previousPageLink = valueToReplacesFromRepo.HasPrevious
+                    ? CreateValueToReplacesResourceUri(valueToReplaceParametersDto,
+                        ResourceUriType.PreviousPage)
+                    : null;
 
-            if (valueToReplaceFromRepo == null)
+            var nextPageLink = valueToReplacesFromRepo.HasNext
+                ? CreateValueToReplacesResourceUri(valueToReplaceParametersDto,
+                    ResourceUriType.NextPage)
+                : null;
+
+            var paginationMetadata = new
             {
-                return NotFound();
-            }
+                totalCount = valueToReplacesFromRepo.TotalCount,
+                pageSize = valueToReplacesFromRepo.PageSize,
+                pageNumber = valueToReplacesFromRepo.PageNumber,
+                totalPages = valueToReplacesFromRepo.TotalPages,
+                hasPrevious = valueToReplacesFromRepo.HasPrevious,
+                hasNext = valueToReplacesFromRepo.HasNext,
+                previousPageLink,
+                nextPageLink
+            };
 
-            var valueToReplaceDto = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplaceFromRepo);
+            Response.Headers.Add("X-Pagination",
+                JsonSerializer.Serialize(paginationMetadata));
 
-            return Ok(valueToReplaceDto);
+            var valueToReplacesDto = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplacesFromRepo);
+            return Ok(valueToReplacesDto);
         }
+
 
         [HttpGet("{valueToReplaceId}", Name = "GetValueToReplace")]
         public ActionResult<ValueToReplaceDto> GetValueToReplace(int valueToReplaceId)
@@ -132,6 +154,46 @@
             _valueToReplaceRepository.Save(); // save changes in the database
 
             return NoContent();
+        }
+
+        private string CreateValueToReplacesResourceUri(
+            ValueToReplaceParametersDto valueToReplaceParametersDto,
+            ResourceUriType type)
+        {
+            switch (type)
+            {
+                case ResourceUriType.PreviousPage:
+                    return Url.Link("GetValueToReplaces",
+                        new
+                        {
+                            filters = valueToReplaceParametersDto.Filters,
+                            orderBy = valueToReplaceParametersDto.SortOrder,
+                            pageNumber = valueToReplaceParametersDto.PageNumber - 1,
+                            pageSize = valueToReplaceParametersDto.PageSize,
+                            searchQuery = valueToReplaceParametersDto.QueryString
+                        });
+                case ResourceUriType.NextPage:
+                    return Url.Link("GetValueToReplaces",
+                        new
+                        {
+                            filters = valueToReplaceParametersDto.Filters,
+                            orderBy = valueToReplaceParametersDto.SortOrder,
+                            pageNumber = valueToReplaceParametersDto.PageNumber + 1,
+                            pageSize = valueToReplaceParametersDto.PageSize,
+                            searchQuery = valueToReplaceParametersDto.QueryString
+                        });
+
+                default:
+                    return Url.Link("GetValueToReplaces",
+                        new
+                        {
+                            filters = valueToReplaceParametersDto.Filters,
+                            orderBy = valueToReplaceParametersDto.SortOrder,
+                            pageNumber = valueToReplaceParametersDto.PageNumber,
+                            pageSize = valueToReplaceParametersDto.PageSize,
+                            searchQuery = valueToReplaceParametersDto.QueryString
+                        });
+            }
         }
     }
 }

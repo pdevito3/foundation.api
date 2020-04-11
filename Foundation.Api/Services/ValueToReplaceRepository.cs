@@ -2,7 +2,10 @@
 {
     using Foundation.Api.Data;
     using Foundation.Api.Data.Entities;
+    using Foundation.Api.Models;
+    using Foundation.Api.Models.Pagination;
     using Microsoft.EntityFrameworkCore;
+    using Sieve.Models;
     using Sieve.Services;
     using System;
     using System.Collections.Generic;
@@ -23,9 +26,33 @@
                 throw new ArgumentNullException(nameof(sieveProcessor));
         }
 
-        public IEnumerable<ValueToReplace> GetValueToReplaces()
+        public PagedList<ValueToReplace> GetValueToReplaces(ValueToReplaceParametersDto valueToReplaceParameters)
         {
-            return _context.ValueToReplaces.ToList();
+            if (valueToReplaceParameters == null)
+            {
+                throw new ArgumentNullException(nameof(valueToReplaceParameters));
+            }
+
+            var collection = _context.ValueToReplaces as IQueryable<ValueToReplace>;
+
+            if (!string.IsNullOrWhiteSpace(valueToReplaceParameters.QueryString))
+            {
+                var QueryString = valueToReplaceParameters.QueryString.Trim();
+                collection = collection.Where(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceTextField1.Contains(QueryString)
+                    || lambdaInitialsToReplace.ValueToReplaceTextField2.Contains(QueryString));
+            }
+
+            var sieveModel = new SieveModel
+            {
+                Sorts = valueToReplaceParameters.SortOrder,
+                Filters = valueToReplaceParameters.Filters
+            };
+
+            collection = _sieveProcessor.Apply(sieveModel, collection);
+
+            return PagedList<ValueToReplace>.Create(collection,
+                valueToReplaceParameters.PageNumber,
+                valueToReplaceParameters.PageSize);
         }
 
         public async Task<ValueToReplace> GetValueToReplaceAsync(int valueToReplaceId)
