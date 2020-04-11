@@ -3,6 +3,7 @@ namespace Foundation.Api
     using AutoBogus;
     using Autofac;
     using AutoMapper;
+    using FluentValidation.AspNetCore;
     using Foundation.Api.Data;
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Services;
@@ -31,6 +32,9 @@ namespace Foundation.Api
             services.AddScoped<SieveProcessor>();
             
             services.AddScoped<IValueToReplaceRepository, ValueToReplaceRepository>();
+
+            services.AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddDbContext<ValueToReplaceDbContext>(opt => 
                 opt.UseInMemoryDatabase("ValueToReplaceDb"));
@@ -65,9 +69,16 @@ namespace Foundation.Api
             {
                 context.Database.EnsureCreated();
 
-                context.ValueToReplaces.Add(new AutoFaker<ValueToReplace>().RuleFor(fake => fake.ValueToReplaceId, 1));
-                context.ValueToReplaces.Add(new AutoFaker<ValueToReplace>());
-                context.ValueToReplaces.Add(new AutoFaker<ValueToReplace>());
+                // auto generate some fake data. added rules to accomodate placeholder validation rules
+                context.ValueToReplaces.Add(new AutoFaker<ValueToReplace>()
+                    .RuleFor(fake => fake.ValueToReplaceDateField1, fake => fake.Date.Past())
+                    .RuleFor(fake => fake.ValueToReplaceIntField1, fake => fake.Random.Number()));
+                context.ValueToReplaces.Add(new AutoFaker<ValueToReplace>()
+                    .RuleFor(fake => fake.ValueToReplaceDateField1, fake => fake.Date.Past())
+                    .RuleFor(fake => fake.ValueToReplaceIntField1, fake => fake.Random.Number()));
+                context.ValueToReplaces.Add(new AutoFaker<ValueToReplace>()
+                    .RuleFor(fake => fake.ValueToReplaceDateField1, fake => fake.Date.Past())
+                    .RuleFor(fake => fake.ValueToReplaceIntField1, fake => fake.Random.Number()));
 
                 context.SaveChanges();
             }
