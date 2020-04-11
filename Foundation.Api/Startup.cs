@@ -35,7 +35,8 @@ namespace Foundation.Api
             services.AddDbContext<ValueToReplaceDbContext>(opt => 
                 opt.UseInMemoryDatabase("ValueToReplaceDb"));
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
         }
 
         // https://autofaccn.readthedocs.io/en/latest/integration/aspnetcore.html

@@ -23,6 +23,11 @@
                 throw new ArgumentNullException(nameof(sieveProcessor));
         }
 
+        public IEnumerable<ValueToReplace> GetValueToReplaces()
+        {
+            return _context.ValueToReplaces.ToList();
+        }
+
         public async Task<ValueToReplace> GetValueToReplaceAsync(int valueToReplaceId)
         {
             return await _context.ValueToReplaces.FirstOrDefaultAsync(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceId == valueToReplaceId);
@@ -33,9 +38,34 @@
             return _context.ValueToReplaces.FirstOrDefault(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceId == valueToReplaceId);
         }
 
-        public IEnumerable<ValueToReplace> GetValueToReplaces()
+        public void AddValueToReplace(ValueToReplace valueToReplace)
         {
-            return _context.ValueToReplaces.ToList();
+            if (valueToReplace == null)
+            {
+                throw new ArgumentNullException(nameof(valueToReplace));
+            }
+
+            _context.ValueToReplaces.Add(valueToReplace);
+        }
+
+        public void DeleteValueToReplace(ValueToReplace valueToReplace)
+        {
+            if (valueToReplace == null)
+            {
+                throw new ArgumentNullException(nameof(valueToReplace));
+            }
+
+            _context.ValueToReplaces.Remove(valueToReplace);
+        }
+
+        public void UpdateValueToReplace(ValueToReplace valueToReplace)
+        {
+            // no implementation for now
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }

@@ -8,8 +8,12 @@
 
     public interface IValueToReplaceRepository
     {
+        IEnumerable<ValueToReplace> GetValueToReplaces();
         Task<ValueToReplace> GetValueToReplaceAsync(int valueToReplaceId);
         ValueToReplace GetValueToReplace(int valueToReplaceId);
-        IEnumerable<ValueToReplace> GetValueToReplaces();
+        void AddValueToReplace(ValueToReplace valueToReplace);
+        void DeleteValueToReplace(ValueToReplace valueToReplace);
+        void UpdateValueToReplace(ValueToReplace valueToReplace);
+        bool Save();
     }
 }
