@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Paul DeVito",
+  "classifications": ["Web/WebAPI"],
+  "name": "Foundation Api Template",
+  "identity": "Foundation.Api",
+  "shortName": "foundation",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "Foundation.Api",
+  "primaryOutputs": [{
+    "path": "Foundation.Api.sln"
+  }],
+  "preferNameDirectory": true,
+  "symbols": { 
+    "entity":{
+      "type": "parameter",
+      "datatype":"text",
+      "replaces": "ValueToReplace",
+      "FileRename": "ValueToReplace",
+    "defaultValue": "ValueToReplace"
+    },
+    "entitycamel":{
+      "type": "parameter",
+      "datatype":"text",
+      "replaces": "valueToReplace",
+      "defaultValue": "valueToReplace"
+    },
+    "lambdainitials":{
+      "type": "parameter",
+      "datatype":"text",
+      "replaces": "lambdaInitialsToReplace",
+      "defaultValue": "lambdaInitialsToReplace"
+    },
+    "ValueToReplaceLower":{
+      "type": "generated",
+      "generator": "casing",
+      "replaces":"ValueToReplaceLower",
+      "parameters": {
+        "source":"entity",
+        "toLower": true
+      }
+    },
+  },
+  "sources": [{
+    "modifiers": [
+      {
+        "exclude": [
+          "**/.vs/**",
+          "**/.git/**",
+          "**/[Bb]in/**",
+          "**/[Oo]bj/**",
+          "**/[Ll]og/**",
+          ".template.config/**/*",
+          "**/*.filelist",
+          "**/*.user",
+          "**/*.lock.json",
+          "**/*.nuspec",
+          "README.md"
+        ]
+      }
+    ]
+  }],
+}
