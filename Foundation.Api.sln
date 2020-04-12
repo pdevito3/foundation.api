@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundation.Api", "Foundatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Api.Models", "Foundation.Api.Models\Foundation.Api.Models.csproj", "{EA48F47E-4075-4258-B67A-0DE7C97B5183}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation.Api.Tests", "Foundation.Api.Tests\Foundation.Api.Tests.csproj", "{A77589CF-B636-4066-A77D-7941987006D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A77589CF-B636-4066-A77D-7941987006D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A77589CF-B636-4066-A77D-7941987006D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A77589CF-B636-4066-A77D-7941987006D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A77589CF-B636-4066-A77D-7941987006D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
