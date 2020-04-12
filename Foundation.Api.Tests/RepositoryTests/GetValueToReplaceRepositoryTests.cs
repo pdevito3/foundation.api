@@ -315,5 +315,47 @@
                 context.Database.EnsureDeleted();
             }
         }
+
+        [Theory]
+        [InlineData("hart", 1)]
+        [InlineData("fav", 1)]
+        [InlineData("Fav", 0)]
+        public void GetValueToReplaces_SearchQueryReturnsExpectedRecordCount(string queryString, int expectedCount)
+        {
+            //Arrange
+            var dbOptions = new DbContextOptionsBuilder<ValueToReplaceDbContext>()
+                .UseInMemoryDatabase(databaseName: $"ValueToReplaceDb{Guid.NewGuid()}")
+                .Options;
+            var sieveOptions = Options.Create(new SieveOptions());
+
+            var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
+            fakeValueToReplaceOne.ValueToReplaceTextField1 = "Alpha";
+            fakeValueToReplaceOne.ValueToReplaceTextField2 = "Bravo";
+
+            var fakeValueToReplaceTwo = new FakeValueToReplace { }.Generate();
+            fakeValueToReplaceTwo.ValueToReplaceTextField1 = "Hartsfield";
+            fakeValueToReplaceTwo.ValueToReplaceTextField2 = "White";
+
+            var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
+            fakeValueToReplaceThree.ValueToReplaceTextField1 = "Bravehart";
+            fakeValueToReplaceThree.ValueToReplaceTextField2 = "Jonfav";
+
+            //Act
+            using (var context = new ValueToReplaceDbContext(dbOptions))
+            {
+                context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
+                context.SaveChanges();
+
+                var service = new ValueToReplaceRepository(context, new SieveProcessor(sieveOptions));
+
+                var valueToReplaceRepo = service.GetValueToReplaces(new ValueToReplaceParametersDto { QueryString = queryString });
+
+                //Assert
+                valueToReplaceRepo.Should()
+                    .HaveCount(expectedCount);
+
+                context.Database.EnsureDeleted();
+            }
+        }
     }
 }

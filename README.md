@@ -20,7 +20,7 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 
 ✅ Add Sieve Filters and Sorting
 
-🔲 Add Unit Tests
+✅ Add Unit Tests
 
 🔲 Add Integration Tests
 
