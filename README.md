@@ -74,7 +74,7 @@ After your first use of the template, you'll want to make sure that you're using
 
 λ cd..
 
-λ dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" --la "r"
+λ dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" -la "r"
 ```
 
 ## Project Structure
@@ -88,4 +88,5 @@ This template with scaffold out the bones of your project, but there are a few t
 2. Update the validators to suit your needs
 3. Adjust Sieve Filters and Sorts on the Entity
 4. Update the QueryString search in the Repository Get List method to use whichever fields you'd like
-5. TBD
+5. Update unit tests for gets to accommodate filter and sorts
+6. TBD
