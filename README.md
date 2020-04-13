@@ -26,9 +26,13 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 
 🔲 Breakout Environments
 
+🔲 Logging
+
 🔲 Devops Pipeline
 
 🔲 Add CQRS Config
+
+🔲 Config File (i.e. CloudFormation script)
 
 ## First Time Template Installation
 
@@ -78,7 +82,37 @@ After your first use of the template, you'll want to make sure that you're using
 ```
 
 ## Project Structure
-TBD
+There are three projects in this template. The below example illustrates an example for a `Recipe` entity in a project named `CarbonKitchen.Recipes.Api`
+
+* **CarbonKitchen.Recipes.Api** 
+  * Properties
+    * **launchsettings.json**: the configurations available for launching the API from Visual Studio
+  * Configuration
+    * **RecipeProfile**: the mapping profiles for [automapper](https://github.com/AutoMapper/AutoMapper) to easily map data between objects
+  * Controllers
+    * **RecipeController**: the actual endpoints that the API will expose for consumption
+  * Data
+    * Entities
+      * **Recipe**: the class that we will use to represent the actual database table
+    * **RecipeDbContext**: provides a reference for the database and tables that we will be working using throughout the project
+  * Services
+    * **IRecipeRepository**: a list of all of the methods we can use in our data access layer (DAL)
+    * **RecipeRepository**: the actual implementation of each method in IRecipeRepository
+  * Validators
+    * **RecipeForCreationDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when creating a new entity in the controller
+    * **RecipeForUpdateDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when updating an existing entity in the controller
+    * **RecipeForManipulationDtoValidator**: validation rules that are *shared* between both the creation and update validators
+* **CarbonKitchen.Recipes.Api.Models**
+  * Pagination
+    * **PagedList**: a special type of `List` that captures pagination info with your collection (e.g. what page you are on, how big the page is, etc.)
+    * **ResourceUriType**: minor enum used to capture the uri of the next and previous pages that our controller will use to provide additional pagination info when returning a list
+    * **RecipePaginationParameters**: base parameters specific to pagination that our RecipeParametersDto can inherit when getting a list of entities
+  * **RecipeDto**: the object we will use whenever we want to return a recipe externally
+  * **RecipeForCreationDto**: the object we will expect to receive whenever someone is sending us a recipe to create
+  * **RecipeForUpdateDto**: the object we will expect to use whenever someone wants to edit a recipe
+  * **RecipeForManipulationDto**: the object that captures the shared parameters between both the creation and update DTOs
+  * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (recipes)
+* **CarbonKitchen.Recipes.Api.Tests**
 
 ## What to Do with a Generated Project
 
