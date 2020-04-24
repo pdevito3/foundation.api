@@ -1,12 +1,12 @@
 # Foundation.Api
 
-## Prerequisites
-- VS2019 .Net Core Feature Set or .Net Core 3.1 SDK https://dotnet.microsoft.com/download/dotnet-core/3.1
-
-----
-
 ## Description
+
 This template uses .Net Core 3.1, to create a foundation for a standard CRUD API using the .Net Template Engine to create new projects on demand using `dotnet new`.
+
+## Prerequisites
+
+- VS2019 .Net Core Feature Set or .Net Core 3.1 SDK https://dotnet.microsoft.com/download/dotnet-core/3.1
 
 ## ToDo
 
