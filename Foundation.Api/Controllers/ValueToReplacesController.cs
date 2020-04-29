@@ -5,9 +5,11 @@
     using System.Text.Json;
     using AutoMapper;
     using Foundation.Api.Data.Entities;
+    using Foundation.Api.Mediator.Queries;
     using Foundation.Api.Models;
     using Foundation.Api.Models.Pagination;
     using Foundation.Api.Services;
+    using MediatR;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
 
@@ -17,49 +19,30 @@
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         public ValueToReplacesController(IValueToReplaceRepository valueToReplaceRepository
-            , IMapper mapper)
+            , IMapper mapper
+            , IMediator mediator)
         {
             _valueToReplaceRepository = valueToReplaceRepository ??
                 throw new ArgumentNullException(nameof(valueToReplaceRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
+            _mediator = mediator ??
+                throw new ArgumentNullException(nameof(mediator));
         }
 
 
         [HttpGet(Name = "GetValueToReplaces")]
         public ActionResult<IEnumerable<ValueToReplaceDto>> GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
         {
-            var valueToReplacesFromRepo = _valueToReplaceRepository.GetValueToReplaces(valueToReplaceParametersDto);
-            
-            var previousPageLink = valueToReplacesFromRepo.HasPrevious
-                    ? CreateValueToReplacesResourceUri(valueToReplaceParametersDto,
-                        ResourceUriType.PreviousPage)
-                    : null;
+            var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto);
+            var result = _mediator.Send(query);
 
-            var nextPageLink = valueToReplacesFromRepo.HasNext
-                ? CreateValueToReplacesResourceUri(valueToReplaceParametersDto,
-                    ResourceUriType.NextPage)
-                : null;
+            Response.Headers.Add(result.Result.ResponseHeaderPagination);
 
-            var paginationMetadata = new
-            {
-                totalCount = valueToReplacesFromRepo.TotalCount,
-                pageSize = valueToReplacesFromRepo.PageSize,
-                pageNumber = valueToReplacesFromRepo.PageNumber,
-                totalPages = valueToReplacesFromRepo.TotalPages,
-                hasPrevious = valueToReplacesFromRepo.HasPrevious,
-                hasNext = valueToReplacesFromRepo.HasNext,
-                previousPageLink,
-                nextPageLink
-            };
-
-            Response.Headers.Add("X-Pagination",
-                JsonSerializer.Serialize(paginationMetadata));
-
-            var valueToReplacesDto = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplacesFromRepo);
-            return Ok(valueToReplacesDto);
+            return Ok(result.Result.ValueToReplaceDtoIEnumerable);
         }
 
 

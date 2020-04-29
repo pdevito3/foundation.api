@@ -7,6 +7,7 @@ namespace Foundation.Api
     using Foundation.Api.Data;
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Services;
+    using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,8 @@ namespace Foundation.Api
 
             services.AddDbContext<ValueToReplaceDbContext>(opt => 
                 opt.UseInMemoryDatabase("ValueToReplaceDb"));
+
+            services.AddMediatR(typeof(Startup));
 
             services.AddControllers()
                 .AddNewtonsoftJson();
