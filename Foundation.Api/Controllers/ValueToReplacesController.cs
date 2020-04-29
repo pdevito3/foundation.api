@@ -33,18 +33,19 @@
                 throw new ArgumentNullException(nameof(mediator));
         }
 
-
         [HttpGet(Name = "GetValueToReplaces")]
         public ActionResult<IEnumerable<ValueToReplaceDto>> GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
         {
-            var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto);
+            var previousPageLink = CreateValueToReplacesResourceUri(valueToReplaceParametersDto, ResourceUriType.PreviousPage);
+            var nextPageLink = CreateValueToReplacesResourceUri(valueToReplaceParametersDto, ResourceUriType.NextPage);
+
+            var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto, previousPageLink, nextPageLink);
             var result = _mediator.Send(query);
 
             Response.Headers.Add(result.Result.ResponseHeaderPagination);
 
             return Ok(result.Result.ValueToReplaceDtoIEnumerable);
         }
-
 
         [HttpGet("{valueToReplaceId}", Name = "GetValueToReplace")]
         public ActionResult<ValueToReplaceDto> GetValueToReplace(int valueToReplaceId)

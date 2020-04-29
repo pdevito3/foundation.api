@@ -33,18 +33,7 @@ namespace Foundation.Api.Mediator.Handlers
 
         public async Task<GetAllValueToReplacesQueryResponse> Handle(GetAllValueToReplacesQuery request, CancellationToken cancellationToken)
         {
-
             var valueToReplacesFromRepo = _valueToReplaceRepository.GetValueToReplaces(request.ValueToReplaceParametersDto);
-
-            //var previousPageLink = valueToReplacesFromRepo.HasPrevious
-            //        ? CreateValueToReplacesResourceUri(request.ValueToReplaceParametersDto,
-            //            ResourceUriType.PreviousPage)
-            //        : null;
-
-            //var nextPageLink = valueToReplacesFromRepo.HasNext
-            //    ? CreateValueToReplacesResourceUri(request.ValueToReplaceParametersDto,
-            //        ResourceUriType.NextPage)
-            //    : null;
 
             var paginationMetadata = new
             {
@@ -54,8 +43,8 @@ namespace Foundation.Api.Mediator.Handlers
                 totalPages = valueToReplacesFromRepo.TotalPages,
                 hasPrevious = valueToReplacesFromRepo.HasPrevious,
                 hasNext = valueToReplacesFromRepo.HasNext,
-                //previousPageLink = "",
-                //nextPageLink = ""
+                previousPageLink = valueToReplacesFromRepo.HasPrevious ? request.PreviousPageLink : null,
+                nextPageLink = valueToReplacesFromRepo.HasNext ? request.NextPageLink : null
             };
 
             var paginationHeader = new KeyValuePair<string, StringValues>("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
@@ -67,48 +56,6 @@ namespace Foundation.Api.Mediator.Handlers
             };
 
             return response;
-        }
-
-
-        private string CreateValueToReplacesResourceUri(
-            ValueToReplaceParametersDto valueToReplaceParametersDto,
-            ResourceUriType type)
-        {
-            return "";
-            //switch (type)
-            //{
-            //    case ResourceUriType.PreviousPage:
-            //        return Url.Link("GetValueToReplaces",
-            //            new
-            //            {
-            //                filters = valueToReplaceParametersDto.Filters,
-            //                orderBy = valueToReplaceParametersDto.SortOrder,
-            //                pageNumber = valueToReplaceParametersDto.PageNumber - 1,
-            //                pageSize = valueToReplaceParametersDto.PageSize,
-            //                searchQuery = valueToReplaceParametersDto.QueryString
-            //            });
-            //    case ResourceUriType.NextPage:
-            //        return Url.Link("GetValueToReplaces",
-            //            new
-            //            {
-            //                filters = valueToReplaceParametersDto.Filters,
-            //                orderBy = valueToReplaceParametersDto.SortOrder,
-            //                pageNumber = valueToReplaceParametersDto.PageNumber + 1,
-            //                pageSize = valueToReplaceParametersDto.PageSize,
-            //                searchQuery = valueToReplaceParametersDto.QueryString
-            //            });
-
-            //    default:
-            //        return Url.Link("GetValueToReplaces",
-            //            new
-            //            {
-            //                filters = valueToReplaceParametersDto.Filters,
-            //                orderBy = valueToReplaceParametersDto.SortOrder,
-            //                pageNumber = valueToReplaceParametersDto.PageNumber,
-            //                pageSize = valueToReplaceParametersDto.PageSize,
-            //                searchQuery = valueToReplaceParametersDto.QueryString
-            //            });
-            //}
         }
     }
 }
