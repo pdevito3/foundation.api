@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Foundation.Api.Data.Entities;
-using Foundation.Api.Mediator.Queries;
-using Foundation.Api.Mediator.Responses;
-using Foundation.Api.Models;
-using Foundation.Api.Models.Pagination;
-using Foundation.Api.Services;
-using MediatR;
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
-
-namespace Foundation.Api.Mediator.Handlers
+﻿namespace Foundation.Api.Mediator.Handlers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text.Json;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Foundation.Api.Mediator.Queries;
+    using Foundation.Api.Mediator.Responses;
+    using Foundation.Api.Models;
+    using Foundation.Api.Services;
+    using MediatR;
+    using Microsoft.Extensions.Primitives;
+
     public class GetAllValueToReplacesHandler : IRequestHandler<GetAllValueToReplacesQuery, GetAllValueToReplacesQueryResponse> // left is what want want to get in, right is what we want to send out
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;

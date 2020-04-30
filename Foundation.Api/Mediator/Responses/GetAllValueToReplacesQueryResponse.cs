@@ -1,12 +1,9 @@
-﻿using Foundation.Api.Models;
-using Microsoft.Extensions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Foundation.Api.Mediator.Responses
+﻿namespace Foundation.Api.Mediator.Responses
 {
+    using Foundation.Api.Models;
+    using Microsoft.Extensions.Primitives;
+    using System.Collections.Generic;
+
     public class GetAllValueToReplacesQueryResponse
     {
         public IEnumerable<ValueToReplaceDto> ValueToReplaceDtoIEnumerable { get; set; }
