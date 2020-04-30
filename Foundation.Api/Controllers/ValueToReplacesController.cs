@@ -78,19 +78,10 @@
         [HttpPut("{valueToReplaceId}")]
         public IActionResult UpdateValueToReplace(int valueToReplaceId, ValueToReplaceForUpdateDto valueToReplace)
         {
-            var valueToReplaceFromRepo = _valueToReplaceRepository.GetValueToReplace(valueToReplaceId);
+            var query = new UpdateEntireValueToReplaceCommand(valueToReplaceId, valueToReplace);
+            var result = _mediator.Send(query);
 
-            if (valueToReplaceFromRepo == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(valueToReplace, valueToReplaceFromRepo);
-            _valueToReplaceRepository.UpdateValueToReplace(valueToReplaceFromRepo);
-
-            _valueToReplaceRepository.Save();
-
-            return NoContent();
+            return result.Result == "NoContent" ? (IActionResult)NoContent() : NotFound();
         }
 
         [HttpPatch("{valueToReplaceId}")]
