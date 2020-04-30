@@ -54,7 +54,7 @@
             var query = new GetValueToReplaceQuery(valueToReplaceId);
             var result = _mediator.Send(query);
 
-            return result != null ? (IActionResult) Ok(result.Result) : NotFound();
+            return result.Result != null ? (IActionResult) Ok(result.Result) : NotFound();
         }
 
         [HttpPost]
@@ -67,19 +67,12 @@
         }
 
         [HttpDelete("{valueToReplaceId}")]
-        public ActionResult DeleteValueToReplace(int valueToReplaceId)
+        public IActionResult DeleteValueToReplace(int valueToReplaceId)
         {
-            var valueToReplaceFromRepo = _valueToReplaceRepository.GetValueToReplace(valueToReplaceId);
+            var query = new DeleteValueToReplaceCommand(valueToReplaceId);
+            var result = _mediator.Send(query);
 
-            if (valueToReplaceFromRepo == null)
-            {
-                return NotFound();
-            }
-
-            _valueToReplaceRepository.DeleteValueToReplace(valueToReplaceFromRepo);
-            _valueToReplaceRepository.Save();
-
-            return NoContent();
+            return result.Result ? (IActionResult)NoContent() : NotFound();
         }
 
         [HttpPut("{valueToReplaceId}")]
