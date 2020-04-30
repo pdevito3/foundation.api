@@ -1,17 +1,13 @@
 ﻿namespace Foundation.Api.Mediator.Handlers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
     using AutoMapper;
     using Foundation.Api.Mediator.Queries;
-    using Foundation.Api.Mediator.Responses;
     using Foundation.Api.Models;
     using Foundation.Api.Services;
     using MediatR;
-    using Microsoft.Extensions.Primitives;
 
     public class GetValueToReplaceHandler : IRequestHandler<GetValueToReplaceQuery, ValueToReplaceDto>
     {

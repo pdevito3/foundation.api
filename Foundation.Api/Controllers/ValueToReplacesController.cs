@@ -5,6 +5,7 @@
     using System.Text.Json;
     using AutoMapper;
     using Foundation.Api.Data.Entities;
+    using Foundation.Api.Mediator.Commands;
     using Foundation.Api.Mediator.Queries;
     using Foundation.Api.Models;
     using Foundation.Api.Models.Pagination;
@@ -57,16 +58,12 @@
         }
 
         [HttpPost]
-        public ActionResult<ValueToReplaceDto> AddValueToReplace(ValueToReplaceForCreationDto valueToReplaceForCreation)
+        public ActionResult<ValueToReplaceDto> AddValueToReplace(CreateValueToReplaceCommand command)
         {
-            var valueToReplace = _mapper.Map<ValueToReplace>(valueToReplaceForCreation);
-            _valueToReplaceRepository.AddValueToReplace(valueToReplace);
-            _valueToReplaceRepository.Save();
-
-            var valueToReplaceDto = _mapper.Map<ValueToReplaceDto>(valueToReplace);
+            var result = _mediator.Send(command);
             return CreatedAtRoute("GetValueToReplace",
-                new { valueToReplaceDto.ValueToReplaceId },
-                valueToReplaceDto);
+                new { result.Result.ValueToReplaceId },
+                result.Result);
         }
 
         [HttpDelete("{valueToReplaceId}")]

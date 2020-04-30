@@ -35,9 +35,5 @@
     <ProjectReference Include="..\Foundation.Api.Models\Foundation.Api.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mediator\Commands\" />
-  </ItemGroup>
-
 
 </Project>
