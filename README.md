@@ -22,6 +22,8 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 
 ✅ Add Unit Tests
 
+✅ Add CQRS Config
+
 🔲 Add Integration Tests
 
 🔲 Breakout Environments
@@ -29,8 +31,6 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 🔲 Logging
 
 🔲 Devops Pipeline
-
-🔲 Add CQRS Config
 
 🔲 Config File (i.e. CloudFormation script)
 
@@ -81,7 +81,66 @@ After your first use of the template, you'll want to make sure that you're using
 λ dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" -la "r"
 ```
 
-## Project Structure
+## What to Do with a Generated Project
+
+This template will scaffold out the bones of your project, but there are a few things you'll need to do to have it operate with you entity.
+
+1. Update the Entity and the DTOs with the correct properties. These are named so that you can easily do a global search and replace `CTRL+SHIFT+F` with whatever parameter you need to use. Don't forget to update your entity to use data annotations that match your database table and sieve attributes for any properties you want to have access to sorting and/or filtering.
+
+   - The creation and update DTOs will inherit from the manipulation DTO to share configuration. Properties can be overridden on the update or creation dtos for operation specific logic.
+
+2. Update the validators to perform whatever validation checks you'd like to use. There validators use [fluent validation](https://github.com/FluentValidation/FluentValidation).
+
+3. Update the QueryString search in the Repository Get List method to use whichever fields you'd like
+
+4. Update unit tests for gets to accommodate filter and sorts. 
+
+   
+
+## Project Organization
+
+### The Mediator Pattern and CQRS
+
+Generally, you will see projects where controllers do most of the heavy lifting. A request comes in, gets routed to the controller and that's that. You probably have a repository for your data access layer, but your controller still has a lot of logic built into it. 
+
+With a mediator pattern, we still have a request come in that goes to the controller, but now instead of having all of our logic in the controller, **our controller will call mediator and it will route our request to the proper handler for that business logic**.
+
+To do this, we're going to organize our project using CQRS which stands for <u>C</u>ommand <u>Q</u>uery <u>R</u>esponsibility <u>S</u>egregation. This means that we'll take the information we get in the request to our controller, along with any other information we may want, and package that info into a what's called a Command or a Query. These are just payloads to carry our data for us. Commands are used whenever we are mutating data (e.g. POST, PUT, PATCH, DELETE, etc.) and Queries are used when we aren't (e.g. GET).
+
+Once we have all the info we need in our command or our query, mediator is going to send it to a Handler. This handler will perform all of the hard work and then return whatever we need back to the controller, which will then send a response back to the client. 
+
+This project uses [Mediatr](https://github.com/jbogard/MediatR) to streamline this process. The process goes something like this:
+
+1. The request comes in and gets routed to the controller
+
+2. In the controller, we create a new instance of whatever query or command we want to use like so:
+
+   ```csharp
+   var query = new GetAllRecipesQuery(recipeParametersDto, this);
+   //or
+   var command = new CreateRecipeCommand(recipeForCreationDto, this);
+   ```
+
+3. Then, we can use mediator to send a request through like so:
+
+   ```csharp
+   var result = _mediator.Send(query);
+   //or
+   var result = _mediator.Send(command);
+   ```
+
+4. Mediator will then look at all of the handlers in our project that we've designated with `IRequestHandler<TRequest, TResponse>` and find the one that takes in the query or command in question. It knows this by looking at the `TRequest` parameter, with the `TResponse` parameter denoting what the Handler will return. For example:
+
+   ```csharp
+   public class GetAllValueToReplacesHandler : IRequestHandler<GetAllRecipesQuery, IActionResult> {}
+   //or
+   public class CreateValueToReplaceHandler : IRequestHandler<CreateRecipeCommand, ActionResult<RecipeDto>> {}
+   ```
+
+5. This handler will then perform whatever operations it needs to in order to get the job done and return whatever the `IRequestHandler` has designated to the controller. 
+
+### Project Structure
+
 There are three projects in this template. The below example illustrates an example for a `Recipe` entity in a project named `CarbonKitchen.Recipes.Api`
 
 * **CarbonKitchen.Recipes.Api** 
@@ -90,11 +149,15 @@ There are three projects in this template. The below example illustrates an exam
   * Configuration
     * **RecipeProfile**: the mapping profiles for [automapper](https://github.com/AutoMapper/AutoMapper) to easily map data between objects
   * Controllers
-    * **RecipeController**: the actual endpoints that the API will expose for consumption
+    * **RecipeController**: the actual endpoints that the API will expose for consumption. These are kept intentionally dumb by design, with the logic in the [Mediatr](https://github.com/jbogard/MediatR) handlers.
   * Data
     * Entities
       * **Recipe**: the class that we will use to represent the actual database table
     * **RecipeDbContext**: provides a reference for the database and tables that we will be working using throughout the project
+  * Mediator
+    * **Commands**: each class in this folder is a [Mediatr](https://github.com/jbogard/MediatR) command used by our mutation endpoints in the controller (POST, PUT, PATCH, DELETE, etc). These commands are requests as opposed to notifications.
+    * **Queries**: each class in this folder is a [Mediatr](https://github.com/jbogard/MediatR) query used by our non mutating endpoints in the controller (GET). These queries are requests as opposed to notifications.
+    * **Handlers**: each class in this folder is a [Mediatr](https://github.com/jbogard/MediatR) handler that will perform the business logic needed in the mediator commands and queries. 
   * Services
     * **IRecipeRepository**: a list of all of the methods we can use in our data access layer (DAL)
     * **RecipeRepository**: the actual implementation of each method in IRecipeRepository
@@ -114,13 +177,3 @@ There are three projects in this template. The below example illustrates an exam
   * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (recipes)
 * **CarbonKitchen.Recipes.Api.Tests**
 
-## What to Do with a Generated Project
-
-This template with scaffold out the bones of your project, but there are a few things you'll need to do to have it operate with you entity.
-
-1. Update the parameters in the Entity and the DTOs
-2. Update the validators to suit your needs
-3. Adjust Sieve Filters and Sorts on the Entity
-4. Update the QueryString search in the Repository Get List method to use whichever fields you'd like
-5. Update unit tests for gets to accommodate filter and sorts
-6. TBD

@@ -7,13 +7,11 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Foundation.Api.Mediator.Queries;
-    using Foundation.Api.Mediator.Responses;
     using Foundation.Api.Models;
     using Foundation.Api.Models.Pagination;
     using Foundation.Api.Services;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Primitives;
 
     public class GetAllValueToReplacesHandler : IRequestHandler<GetAllValueToReplacesQuery, IActionResult> // left is what want want to get in, right is what we want to send out
     {
