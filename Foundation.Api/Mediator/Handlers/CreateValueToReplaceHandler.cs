@@ -6,11 +6,12 @@
     using Foundation.Api.Models;
     using Foundation.Api.Services;
     using MediatR;
+    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class CreateValueToReplaceHandler : IRequestHandler<CreateValueToReplaceCommand, ValueToReplaceDto>
+    public class CreateValueToReplaceHandler : IRequestHandler<CreateValueToReplaceCommand, ActionResult<ValueToReplaceDto>>
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
         private readonly IMapper _mapper;
@@ -24,13 +25,16 @@
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<ValueToReplaceDto> Handle(CreateValueToReplaceCommand valueForToReplaceForCreationDto, CancellationToken cancellationToken)
+        public async Task<ActionResult<ValueToReplaceDto>> Handle(CreateValueToReplaceCommand createValueToReplaceCommand, CancellationToken cancellationToken)
         {
-            var valueToReplace = _mapper.Map<ValueToReplace>(valueForToReplaceForCreationDto);
+            var valueToReplace = _mapper.Map<ValueToReplace>(createValueToReplaceCommand.ValueToReplaceForCreationDto);
             _valueToReplaceRepository.AddValueToReplace(valueToReplace);
             _valueToReplaceRepository.Save();
 
-            return _mapper.Map<ValueToReplaceDto>(valueToReplace);
+            var valueToReplaceDto = _mapper.Map<ValueToReplaceDto>(valueToReplace);
+            return createValueToReplaceCommand.Controller.CreatedAtRoute("GetValueToReplace",
+                new { valueToReplaceDto.ValueToReplaceId },
+                valueToReplaceDto);
         }
     }
 }

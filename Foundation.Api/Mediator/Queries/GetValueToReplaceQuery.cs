@@ -3,14 +3,17 @@
     using Foundation.Api.Mediator.Responses;
     using Foundation.Api.Models;
     using MediatR;
+    using Microsoft.AspNetCore.Mvc;
 
-    public class GetValueToReplaceQuery : IRequest<ValueToReplaceDto>
+    public class GetValueToReplaceQuery : IRequest<IActionResult>
     {
         public int ValueToReplaceId { get; }
+        public Controller Controller { get; set; }
 
-        public GetValueToReplaceQuery(int valueToReplaceId)
+        public GetValueToReplaceQuery(int valueToReplaceId, Controller controller)
         {
             ValueToReplaceId = valueToReplaceId;
+            Controller = controller;
         }
     }
 }
