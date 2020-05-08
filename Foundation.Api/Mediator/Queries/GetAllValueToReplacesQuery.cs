@@ -3,18 +3,17 @@
     using Foundation.Api.Mediator.Responses;
     using Foundation.Api.Models;
     using MediatR;
+    using Microsoft.AspNetCore.Mvc;
 
-    public class GetAllValueToReplacesQuery : IRequest<GetAllValueToReplacesQueryResponse>
+    public class GetAllValueToReplacesQuery : IRequest<IActionResult>
     {
         public ValueToReplaceParametersDto ValueToReplaceParametersDto { get; }
-        public string PreviousPageLink { get; }
-        public string NextPageLink { get; }
+        public Controller Controller { get; }
 
-        public GetAllValueToReplacesQuery(ValueToReplaceParametersDto valueToReplaceParametersDto, string previousPageLink, string nextPageLink)
+        public GetAllValueToReplacesQuery(ValueToReplaceParametersDto valueToReplaceParametersDto, Controller controller)
         {
             ValueToReplaceParametersDto = valueToReplaceParametersDto;
-            PreviousPageLink = previousPageLink;
-            NextPageLink = nextPageLink;
+            Controller = controller;
         }
     }
 }

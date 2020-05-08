@@ -23,17 +23,12 @@
         }
 
         [HttpGet(Name = "GetValueToReplaces")]
-        public ActionResult<IEnumerable<ValueToReplaceDto>> GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
+        public IActionResult GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
         {
-            var previousPageLink = CreateValueToReplacesResourceUri(valueToReplaceParametersDto, ResourceUriType.PreviousPage);
-            var nextPageLink = CreateValueToReplacesResourceUri(valueToReplaceParametersDto, ResourceUriType.NextPage);
-
-            var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto, previousPageLink, nextPageLink);
+            var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto, this);
             var result = _mediator.Send(query);
 
-            Response.Headers.Add(result.Result.ResponseHeaderPagination);
-
-            return Ok(result.Result.ValueToReplaceDtoIEnumerable);
+            return result.Result;
         }
 
         [HttpGet("{valueToReplaceId}", Name = "GetValueToReplace")]
@@ -79,46 +74,6 @@
             var result = _mediator.Send(command);
 
             return result.Result;
-        }
-
-        private string CreateValueToReplacesResourceUri(
-            ValueToReplaceParametersDto valueToReplaceParametersDto,
-            ResourceUriType type)
-        {
-            switch (type)
-            {
-                case ResourceUriType.PreviousPage:
-                    return Url.Link("GetValueToReplaces",
-                        new
-                        {
-                            filters = valueToReplaceParametersDto.Filters,
-                            orderBy = valueToReplaceParametersDto.SortOrder,
-                            pageNumber = valueToReplaceParametersDto.PageNumber - 1,
-                            pageSize = valueToReplaceParametersDto.PageSize,
-                            searchQuery = valueToReplaceParametersDto.QueryString
-                        });
-                case ResourceUriType.NextPage:
-                    return Url.Link("GetValueToReplaces",
-                        new
-                        {
-                            filters = valueToReplaceParametersDto.Filters,
-                            orderBy = valueToReplaceParametersDto.SortOrder,
-                            pageNumber = valueToReplaceParametersDto.PageNumber + 1,
-                            pageSize = valueToReplaceParametersDto.PageSize,
-                            searchQuery = valueToReplaceParametersDto.QueryString
-                        });
-
-                default:
-                    return Url.Link("GetValueToReplaces",
-                        new
-                        {
-                            filters = valueToReplaceParametersDto.Filters,
-                            orderBy = valueToReplaceParametersDto.SortOrder,
-                            pageNumber = valueToReplaceParametersDto.PageNumber,
-                            pageSize = valueToReplaceParametersDto.PageSize,
-                            searchQuery = valueToReplaceParametersDto.QueryString
-                        });
-            }
         }
     }
 }

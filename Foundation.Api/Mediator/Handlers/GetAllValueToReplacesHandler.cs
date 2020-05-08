@@ -9,11 +9,13 @@
     using Foundation.Api.Mediator.Queries;
     using Foundation.Api.Mediator.Responses;
     using Foundation.Api.Models;
+    using Foundation.Api.Models.Pagination;
     using Foundation.Api.Services;
     using MediatR;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Primitives;
 
-    public class GetAllValueToReplacesHandler : IRequestHandler<GetAllValueToReplacesQuery, GetAllValueToReplacesQueryResponse> // left is what want want to get in, right is what we want to send out
+    public class GetAllValueToReplacesHandler : IRequestHandler<GetAllValueToReplacesQuery, IActionResult> // left is what want want to get in, right is what we want to send out
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
         private readonly IMapper _mapper;
@@ -27,9 +29,21 @@
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<GetAllValueToReplacesQueryResponse> Handle(GetAllValueToReplacesQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetAllValueToReplacesQuery request, CancellationToken cancellationToken)
         {
             var valueToReplacesFromRepo = _valueToReplaceRepository.GetValueToReplaces(request.ValueToReplaceParametersDto);
+
+            var previousPageLink = valueToReplacesFromRepo.HasPrevious
+                    ? CreateValueToReplacesResourceUri(request.ValueToReplaceParametersDto,
+                        ResourceUriType.PreviousPage,
+                        request.Controller)
+                    : null;
+
+            var nextPageLink = valueToReplacesFromRepo.HasNext
+                ? CreateValueToReplacesResourceUri(request.ValueToReplaceParametersDto,
+                    ResourceUriType.NextPage,
+                    request.Controller)
+                : null;
 
             var paginationMetadata = new
             {
@@ -39,19 +53,57 @@
                 totalPages = valueToReplacesFromRepo.TotalPages,
                 hasPrevious = valueToReplacesFromRepo.HasPrevious,
                 hasNext = valueToReplacesFromRepo.HasNext,
-                previousPageLink = valueToReplacesFromRepo.HasPrevious ? request.PreviousPageLink : null,
-                nextPageLink = valueToReplacesFromRepo.HasNext ? request.NextPageLink : null
+                previousPageLink,
+                nextPageLink
             };
 
-            var paginationHeader = new KeyValuePair<string, StringValues>("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+            request.Controller.Response.Headers.Add("X-Pagination",
+                JsonSerializer.Serialize(paginationMetadata));
 
-            var response = new GetAllValueToReplacesQueryResponse()
+            var returnableValueToReplace = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplacesFromRepo);
+
+            return request.Controller.Ok(returnableValueToReplace);
+        }
+
+        private string CreateValueToReplacesResourceUri(
+            ValueToReplaceParametersDto valueToReplaceParametersDto,
+            ResourceUriType type,
+            Controller controller)
+        {
+            switch (type)
             {
-                ValueToReplaceDtoIEnumerable = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplacesFromRepo),
-                ResponseHeaderPagination = paginationHeader
-            };
+                case ResourceUriType.PreviousPage:
+                    return controller.Url.Link("GetValueToReplaces",
+                        new
+                        {
+                            filters = valueToReplaceParametersDto.Filters,
+                            orderBy = valueToReplaceParametersDto.SortOrder,
+                            pageNumber = valueToReplaceParametersDto.PageNumber - 1,
+                            pageSize = valueToReplaceParametersDto.PageSize,
+                            searchQuery = valueToReplaceParametersDto.QueryString
+                        });
+                case ResourceUriType.NextPage:
+                    return controller.Url.Link("GetValueToReplaces",
+                        new
+                        {
+                            filters = valueToReplaceParametersDto.Filters,
+                            orderBy = valueToReplaceParametersDto.SortOrder,
+                            pageNumber = valueToReplaceParametersDto.PageNumber + 1,
+                            pageSize = valueToReplaceParametersDto.PageSize,
+                            searchQuery = valueToReplaceParametersDto.QueryString
+                        });
 
-            return response;
+                default:
+                    return controller.Url.Link("GetValueToReplaces",
+                        new
+                        {
+                            filters = valueToReplaceParametersDto.Filters,
+                            orderBy = valueToReplaceParametersDto.SortOrder,
+                            pageNumber = valueToReplaceParametersDto.PageNumber,
+                            pageSize = valueToReplaceParametersDto.PageSize,
+                            searchQuery = valueToReplaceParametersDto.QueryString
+                        });
+            }
         }
     }
 }
