@@ -34,44 +34,44 @@
         [HttpGet("{valueToReplaceId}", Name = "GetValueToReplace")]
         public IActionResult GetValueToReplace(int valueToReplaceId)
         {
-            var query = new GetValueToReplaceQuery(valueToReplaceId, this);
+            var query = new GetValueToReplaceQuery(valueToReplaceId);
             var result = _mediator.Send(query);
 
-            return result.Result;
+            return result.Result != null ? (IActionResult) Ok(result.Result) : NotFound();
         }
 
         [HttpPost]
-        public ActionResult<ValueToReplaceDto> AddValueToReplace(ValueToReplaceForCreationDto valueToReplaceForCreationDto)
+        public ActionResult<ValueToReplaceDto> AddValueToReplace(CreateValueToReplaceCommand command)
         {
-            var command = new CreateValueToReplaceCommand(valueToReplaceForCreationDto, this);
             var result = _mediator.Send(command);
-
-            return result.Result;
+            return CreatedAtRoute("GetValueToReplace",
+                new { result.Result.ValueToReplaceId },
+                result.Result);
         }
 
         [HttpDelete("{valueToReplaceId}")]
         public IActionResult DeleteValueToReplace(int valueToReplaceId)
         {
-            var query = new DeleteValueToReplaceCommand(valueToReplaceId, this);
+            var query = new DeleteValueToReplaceCommand(valueToReplaceId);
             var result = _mediator.Send(query);
 
-            return result.Result;
+            return result.Result ? (IActionResult)NoContent() : NotFound();
         }
 
         [HttpPut("{valueToReplaceId}")]
         public IActionResult UpdateValueToReplace(int valueToReplaceId, ValueToReplaceForUpdateDto valueToReplace)
         {
-            var command = new UpdateEntireValueToReplaceCommand(valueToReplaceId, valueToReplace, this);
-            var result = _mediator.Send(command);
+            var query = new UpdateEntireValueToReplaceCommand(valueToReplaceId, valueToReplace);
+            var result = _mediator.Send(query);
 
-            return result.Result;
+            return result.Result.ToUpper() == "NOCONTENT" ? (IActionResult)NoContent() : NotFound();
         }
 
         [HttpPatch("{valueToReplaceId}")]
         public IActionResult PartiallyUpdateValueToReplace(int valueToReplaceId, JsonPatchDocument<ValueToReplaceForUpdateDto> patchDoc)
         {
-            var command = new UpdatePartialValueToReplaceCommand(valueToReplaceId, patchDoc, this);
-            var result = _mediator.Send(command);
+            var query = new UpdatePartialValueToReplaceCommand(valueToReplaceId, patchDoc, this);
+            var result = _mediator.Send(query);
 
             return result.Result;
         }

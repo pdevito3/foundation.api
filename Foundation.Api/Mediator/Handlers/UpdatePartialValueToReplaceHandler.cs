@@ -1,6 +1,7 @@
 ﻿namespace Foundation.Api.Mediator.Handlers
 {
     using AutoMapper;
+    using Foundation.Api.Data.Entities;
     using Foundation.Api.Mediator.Commands;
     using Foundation.Api.Models;
     using Foundation.Api.Services;
@@ -9,6 +10,7 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web.Mvc;
 
     public class UpdatePartialValueToReplaceHandler : IRequestHandler<UpdatePartialValueToReplaceCommand, IActionResult>
     {

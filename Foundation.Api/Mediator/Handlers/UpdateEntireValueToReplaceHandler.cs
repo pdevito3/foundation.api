@@ -1,15 +1,16 @@
 ﻿namespace Foundation.Api.Mediator.Handlers
 {
     using AutoMapper;
+    using Foundation.Api.Data.Entities;
     using Foundation.Api.Mediator.Commands;
+    using Foundation.Api.Models;
     using Foundation.Api.Services;
     using MediatR;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class UpdateEntireValueToReplaceHandler : IRequestHandler<UpdateEntireValueToReplaceCommand, IActionResult>
+    public class UpdateEntireValueToReplaceHandler : IRequestHandler<UpdateEntireValueToReplaceCommand, string>
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
         private readonly IMapper _mapper;
@@ -23,13 +24,13 @@
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IActionResult> Handle(UpdateEntireValueToReplaceCommand updateEntireValueToReplaceCommand, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdateEntireValueToReplaceCommand updateEntireValueToReplaceCommand, CancellationToken cancellationToken)
         {
             var valueToReplaceFromRepo = _valueToReplaceRepository.GetValueToReplace(updateEntireValueToReplaceCommand.ValueToReplaceId);
 
             if (valueToReplaceFromRepo == null)
             {
-                return updateEntireValueToReplaceCommand.Controller.NotFound();
+                return "NotFound";
             }
 
             _mapper.Map(updateEntireValueToReplaceCommand.ValueToReplaceForUpdateDto, valueToReplaceFromRepo);
@@ -37,7 +38,7 @@
 
             _valueToReplaceRepository.Save();
 
-            return updateEntireValueToReplaceCommand.Controller.NoContent();
+            return "NoContent";
         }
     }
 }

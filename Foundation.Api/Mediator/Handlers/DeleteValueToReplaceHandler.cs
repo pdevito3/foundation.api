@@ -9,31 +9,34 @@
     using Foundation.Api.Models;
     using Foundation.Api.Services;
     using MediatR;
-    using Microsoft.AspNetCore.Mvc;
 
-    public class DeleteValueToReplaceHandler : IRequestHandler<DeleteValueToReplaceCommand, IActionResult>
+    public class DeleteValueToReplaceHandler : IRequestHandler<DeleteValueToReplaceCommand, bool>
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
+        private readonly IMapper _mapper;
 
-        public DeleteValueToReplaceHandler(IValueToReplaceRepository valueToReplaceRepository)
+        public DeleteValueToReplaceHandler(IValueToReplaceRepository valueToReplaceRepository
+            , IMapper mapper)
         {
             _valueToReplaceRepository = valueToReplaceRepository ??
                 throw new ArgumentNullException(nameof(valueToReplaceRepository));
+            _mapper = mapper ??
+                throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IActionResult> Handle(DeleteValueToReplaceCommand command, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteValueToReplaceCommand command, CancellationToken cancellationToken)
         {
             var valueToReplaceFromRepo = _valueToReplaceRepository.GetValueToReplace(command.ValueToReplaceId);
 
             if (valueToReplaceFromRepo == null)
             {
-                return command.Controller.NotFound();
+                return false;
             }
 
             _valueToReplaceRepository.DeleteValueToReplace(valueToReplaceFromRepo);
             _valueToReplaceRepository.Save();
 
-            return command.Controller.NoContent();
+            return true;
         }
     }
 }

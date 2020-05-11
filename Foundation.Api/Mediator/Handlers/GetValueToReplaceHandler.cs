@@ -8,9 +8,8 @@
     using Foundation.Api.Models;
     using Foundation.Api.Services;
     using MediatR;
-    using Microsoft.AspNetCore.Mvc;
 
-    public class GetValueToReplaceHandler : IRequestHandler<GetValueToReplaceQuery, IActionResult>
+    public class GetValueToReplaceHandler : IRequestHandler<GetValueToReplaceQuery, ValueToReplaceDto>
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
         private readonly IMapper _mapper;
@@ -24,18 +23,18 @@
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IActionResult> Handle(GetValueToReplaceQuery request, CancellationToken cancellationToken)
+        public async Task<ValueToReplaceDto> Handle(GetValueToReplaceQuery request, CancellationToken cancellationToken)
         {
             var valueToReplaceFromRepo = _valueToReplaceRepository.GetValueToReplace(request.ValueToReplaceId);
 
             if (valueToReplaceFromRepo == null)
             {
-                return request.Controller.NotFound();
+                return null;
             }
 
             var valueToReplaceDto = _mapper.Map<ValueToReplaceDto>(valueToReplaceFromRepo);
 
-            return request.Controller.Ok(valueToReplaceDto);
+            return valueToReplaceDto;
         }
     }
 }

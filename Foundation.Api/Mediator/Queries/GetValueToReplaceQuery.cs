@@ -1,17 +1,14 @@
 ﻿namespace Foundation.Api.Mediator.Queries
 {
     using MediatR;
-    using Microsoft.AspNetCore.Mvc;
 
-    public class GetValueToReplaceQuery : IRequest<IActionResult>
+    public class GetValueToReplaceQuery : IRequest<ValueToReplaceDto>
     {
         public int ValueToReplaceId { get; }
-        public Controller Controller { get; set; }
 
-        public GetValueToReplaceQuery(int valueToReplaceId, Controller controller)
+        public GetValueToReplaceQuery(int valueToReplaceId)
         {
             ValueToReplaceId = valueToReplaceId;
-            Controller = controller;
         }
     }
 }
