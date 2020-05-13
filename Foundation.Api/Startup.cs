@@ -10,10 +10,12 @@ namespace Foundation.Api
     using MediatR;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Newtonsoft.Json;
     using Sieve.Services;
     using System;
 
@@ -31,6 +33,8 @@ namespace Foundation.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCompression();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -39,21 +43,30 @@ namespace Foundation.Api
                     .AllowAnyHeader());
             });
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<SieveProcessor>();
             
             services.AddScoped<IValueToReplaceRepository, ValueToReplaceRepository>();
 
             services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
+                .AddNewtonsoftJson(
+                op =>
+                {
+                    op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    op.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                });
 
-            services.AddDbContext<ValueToReplaceDbContext>(opt => 
-                opt.UseInMemoryDatabase("ValueToReplaceDb"));
+            services.AddDbContext<ValueToReplaceDbContext>(opt => opt.UseInMemoryDatabase("ValueToReplaceDb"));
 
             services.AddMediatR(typeof(Startup));
 
-            services.AddControllers()
-                .AddNewtonsoftJson();
+            services.AddControllers();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
         // https://autofaccn.readthedocs.io/en/latest/integration/aspnetcore.html
@@ -97,6 +110,13 @@ namespace Foundation.Api
 
                 context.SaveChanges();
             }
+
+            app.UseResponseCompression();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
         }
     }
 }
