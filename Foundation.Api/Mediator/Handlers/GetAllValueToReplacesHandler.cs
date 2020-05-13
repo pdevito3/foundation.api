@@ -55,9 +55,9 @@
                 NextPageLink = nextPageLink
             };
 
-            var returnableValueToReplace = _mapper.Map<PagedList<ValueToReplaceDto>>(valueToReplacesFromRepo);
+            var returnableValueToReplace = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplacesFromRepo);
 
-            var response = new GetAllValueToReplaceQueryResponse { PaginationMetadata = paginationMetadata, PagedList = returnableValueToReplace };
+            var response = new GetAllValueToReplaceQueryResponse { PaginationMetadata = paginationMetadata, ValueToReplaceDtoList = returnableValueToReplace };
             return response;
         }
 

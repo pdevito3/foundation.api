@@ -9,7 +9,7 @@ namespace Foundation.Api.Mediator.Queries
 {
     public class GetAllValueToReplaceQueryResponse
     {
-        public PagedList<ValueToReplaceDto> PagedList { get; set; }
+        public IEnumerable<ValueToReplaceDto> ValueToReplaceDtoList { get; set; }
         public PaginationHeader PaginationMetadata { get; set; }
     }
 }
