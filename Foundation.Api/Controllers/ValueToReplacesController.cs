@@ -32,7 +32,7 @@
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(result.Result.PaginationMetadata));
 
-            return Ok(result.Result.PagedList);
+            return Ok(result.Result.ValueToReplaceDtoList);
         }
 
         [HttpGet("{valueToReplaceId}", Name = "GetValueToReplace")]
