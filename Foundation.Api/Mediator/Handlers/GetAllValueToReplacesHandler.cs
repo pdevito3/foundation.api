@@ -13,7 +13,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
-    public class GetAllValueToReplacesHandler : IRequestHandler<GetAllValueToReplacesQuery, IActionResult> // left is what want want to get in, right is what we want to send out
+    public class GetAllValueToReplacesHandler : IRequestHandler<GetAllValueToReplacesQuery, GetAllValueToReplaceQueryResponse> // left is what want want to get in, right is what we want to send out
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IActionResult> Handle(GetAllValueToReplacesQuery request, CancellationToken cancellationToken)
+        public async Task<GetAllValueToReplaceQueryResponse> Handle(GetAllValueToReplacesQuery request, CancellationToken cancellationToken)
         {
             var valueToReplacesFromRepo = _valueToReplaceRepository.GetValueToReplaces(request.ValueToReplaceParametersDto);
 
@@ -43,24 +43,22 @@
                     request.Controller)
                 : null;
 
-            var paginationMetadata = new
+            var paginationMetadata = new PaginationHeader
             {
-                totalCount = valueToReplacesFromRepo.TotalCount,
-                pageSize = valueToReplacesFromRepo.PageSize,
-                pageNumber = valueToReplacesFromRepo.PageNumber,
-                totalPages = valueToReplacesFromRepo.TotalPages,
-                hasPrevious = valueToReplacesFromRepo.HasPrevious,
-                hasNext = valueToReplacesFromRepo.HasNext,
-                previousPageLink,
-                nextPageLink
+                TotalCount = valueToReplacesFromRepo.TotalCount,
+                PageSize = valueToReplacesFromRepo.PageSize,
+                PageNumber = valueToReplacesFromRepo.PageNumber,
+                TotalPages = valueToReplacesFromRepo.TotalPages,
+                HasPrevious = valueToReplacesFromRepo.HasPrevious,
+                HasNext = valueToReplacesFromRepo.HasNext,
+                PreviousPageLink = previousPageLink,
+                NextPageLink = nextPageLink
             };
 
-            request.Controller.Response.Headers.Add("X-Pagination",
-                JsonSerializer.Serialize(paginationMetadata));
+            var returnableValueToReplace = _mapper.Map<PagedList<ValueToReplaceDto>>(valueToReplacesFromRepo);
 
-            var returnableValueToReplace = _mapper.Map<IEnumerable<ValueToReplaceDto>>(valueToReplacesFromRepo);
-
-            return request.Controller.Ok(returnableValueToReplace);
+            var response = new GetAllValueToReplaceQueryResponse { PaginationMetadata = paginationMetadata, PagedList = returnableValueToReplace };
+            return response;
         }
 
         private string CreateValueToReplacesResourceUri(
