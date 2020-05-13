@@ -1,10 +1,11 @@
 ﻿namespace Foundation.Api.Mediator.Queries
 {
     using Foundation.Api.Models;
+    using Foundation.Api.Models.Pagination;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
-    public class GetAllValueToReplacesQuery : IRequest<IActionResult>
+    public class GetAllValueToReplacesQuery : IRequest<GetAllValueToReplaceQueryResponse>
     {
         public ValueToReplaceParametersDto ValueToReplaceParametersDto { get; }
         public Controller Controller { get; }

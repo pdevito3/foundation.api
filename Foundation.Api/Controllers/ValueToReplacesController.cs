@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using Foundation.Api.Mediator.Commands;
     using Foundation.Api.Mediator.Queries;
     using Foundation.Api.Models;
@@ -28,7 +29,10 @@
             var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto, this);
             var result = _mediator.Send(query);
 
-            return result.Result;
+            Response.Headers.Add("X-Pagination",
+                JsonSerializer.Serialize(result.Result.PaginationMetadata));
+
+            return Ok(result.Result.PagedList);
         }
 
         [HttpGet("{valueToReplaceId}", Name = "GetValueToReplace")]
