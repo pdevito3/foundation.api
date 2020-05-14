@@ -11,7 +11,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Web.Mvc;
     using Xunit;
 
     public class ValueToReplaceCommandTests : IClassFixture<CustomWebApplicationFactory<Startup>>
