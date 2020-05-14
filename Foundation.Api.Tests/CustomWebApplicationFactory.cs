@@ -1,13 +1,15 @@
-﻿namespace Foundation.Api.Tests
-{
-    using Foundation.Api.Data;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc.Testing;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Linq;
+﻿using Foundation.Api.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+using Xunit;
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
+namespace Foundation.Api.Tests
+{
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
