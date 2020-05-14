@@ -11,7 +11,8 @@
             //createmap<to this, from this>
             CreateMap<ValueToReplace, ValueToReplaceDto>()
                 .ReverseMap();
-            CreateMap<ValueToReplaceForCreationDto, ValueToReplace>();
+            CreateMap<ValueToReplaceForCreationDto, ValueToReplace>()
+                .ReverseMap();
             CreateMap<ValueToReplaceForUpdateDto, ValueToReplace>()
                 .ReverseMap();
         }

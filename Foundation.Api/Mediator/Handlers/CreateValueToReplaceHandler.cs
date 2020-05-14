@@ -24,9 +24,9 @@
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<ValueToReplaceDto> Handle(CreateValueToReplaceCommand valueForToReplaceForCreationDto, CancellationToken cancellationToken)
+        public async Task<ValueToReplaceDto> Handle(CreateValueToReplaceCommand createValueToReplaceCommand, CancellationToken cancellationToken)
         {
-            var valueToReplace = _mapper.Map<ValueToReplace>(valueForToReplaceForCreationDto);
+            var valueToReplace = _mapper.Map<ValueToReplace>(createValueToReplaceCommand.ValueToReplaceForCreationDto);
             _valueToReplaceRepository.AddValueToReplace(valueToReplace);
             _valueToReplaceRepository.Save();
 

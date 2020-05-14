@@ -3,7 +3,13 @@
     using Foundation.Api.Models;
     using MediatR;
 
-    public class CreateValueToReplaceCommand : ValueToReplaceForCreationDto, IRequest<ValueToReplaceDto>
+    public class CreateValueToReplaceCommand : IRequest<ValueToReplaceDto>
     {
+        public ValueToReplaceForCreationDto ValueToReplaceForCreationDto { get; }
+
+        public CreateValueToReplaceCommand(ValueToReplaceForCreationDto valueToReplaceForCreationDto)
+        {
+            ValueToReplaceForCreationDto = valueToReplaceForCreationDto;
+        }
     }
 }
