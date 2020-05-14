@@ -3,20 +3,15 @@
     using AutoBogus;
     using AutoMapper;
     using FluentAssertions;
-    using Foundation.Api.Controllers;
     using Foundation.Api.Data;
-    using Foundation.Api.Data.Entities;
     using Foundation.Api.Mediator.Commands;
-    using Foundation.Api.Mediator.Queries;
     using Foundation.Api.Models;
     using Foundation.Api.Tests.Fakes;
     using MediatR;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
-    using Moq;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Xml.Xsl;
+    using System.Web.Mvc;
     using Xunit;
 
     public class ValueToReplaceCommandTests : IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -129,5 +124,32 @@
             valueToReplaceDtoFromRepo.ValueToReplaceIntField1.Should().Be(valueToReplaceForUpdateDto.ValueToReplaceIntField1);
             valueToReplaceDtoFromRepo.ValueToReplaceDateField1.Should().Be(valueToReplaceForUpdateDto.ValueToReplaceDateField1);
         }
+
+        //TODO: figure out better controller mocking for patch
+        //[Fact]
+        //public async Task UpdatePartialValueToReplace_NewValueToReplaceAddedAndReturned()
+        //{
+        //    var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
+        //    var valueToReplacePatchDoc = new JsonPatchDocument<ValueToReplaceForUpdateDto> { };
+        //    valueToReplacePatchDoc.Replace(p => p.ValueToReplaceTextField1, "New Val");
+
+        //    var scope = _factory.Services.CreateScope();
+
+        //    var mediator = scope.ServiceProvider.GetService<IMediator>();
+        //    var context = scope.ServiceProvider.GetRequiredService<ValueToReplaceDbContext>();
+        //    context.Database.EnsureCreated();
+        //    context.ValueToReplaces.RemoveRange(context.ValueToReplaces); // change this to use respawn?
+        //    context.ValueToReplaces.Add(fakeValueToReplaceOne);
+        //    context.SaveChanges();
+
+        //    var controller = new ValueToReplacesController(mediator);
+        //    var valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
+        //    var query = new UpdatePartialValueToReplaceCommand(valueToReplaceDtoFromRepo.ValueToReplaceId, valueToReplacePatchDoc, controller);
+        //    _ = await mediator.Send(query);
+
+        //    valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
+
+        //    valueToReplaceDtoFromRepo.ValueToReplaceTextField1.Should().Be("New Val");
+        //}
     }
 }

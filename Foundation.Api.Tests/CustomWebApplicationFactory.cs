@@ -1,4 +1,5 @@
-﻿using Foundation.Api.Data;
+﻿using Foundation.Api.Controllers;
+using Foundation.Api.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,9 @@ namespace Foundation.Api.Tests
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder
+            .ConfigureAppConfiguration((context, b) => {
+                context.HostingEnvironment.ApplicationName = typeof(ValueToReplacesController).Assembly.GetName().Name;
+            })
             .ConfigureServices(services =>
             {
                 // Remove the app's ValueToReplaceDbContext registration.
