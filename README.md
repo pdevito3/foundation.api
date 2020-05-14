@@ -93,11 +93,11 @@ This template will scaffold out the bones of your project, but there are a few t
 
    - The creation and update DTOs will inherit from the manipulation DTO to share configuration. Properties can be overridden on the update or creation dtos for operation specific logic.
 
-2. Update the validators to perform whatever validation checks you'd like to use. There validators use [fluent validation](https://github.com/FluentValidation/FluentValidation).
+2. Update the [fluent validation](https://github.com/FluentValidation/FluentValidation) validators to perform whatever validation checks you'd like to use.
 
 3. Update the QueryString search in the Repository Get List method to use whichever fields you'd like
 
-4. Update unit tests for gets to accommodate filter and sorts. 
+4. Update unit tests for gets to accommodate filters, sorts, and any specific parameter checks you may want. 
 
    
 
