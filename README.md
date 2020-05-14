@@ -24,11 +24,15 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 
 ✅ Add CQRS Config
 
-🔲 Add Integration Tests
+✅ Mediatr Tests
 
-🔲 Breakout Environments
+🔲 Debug Integration Test Failures
 
-🔲 Logging
+🔲 Refactor Partial Update and Get List Mediatr Handlers to Not Use Controller
+
+🔲 Breakout Startup Environments
+
+🔲 Add Logging
 
 🔲 Devops Pipeline
 
