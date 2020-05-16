@@ -24,7 +24,7 @@
         }
 
         [HttpGet(Name = "GetValueToReplaces")]
-        public IActionResult GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
+        public IActionResult GetValueToReplaces([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
         {
             var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto, this);
             var result = _mediator.Send(query);
