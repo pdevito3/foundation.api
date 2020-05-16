@@ -9,6 +9,7 @@
     using MediatR;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.AspNetCore.Mvc.Testing;
@@ -99,14 +100,15 @@
 
             var valueToReplaceParametersDto = new ValueToReplaceParametersDto { PageSize = 1 };
             var controller = new ValueToReplacesController(mediator);
-            var mockUrl = new Mock<IUrlHelper>();
-            controller.Url = mockUrl.Object;
+            new Helpers.ControllerBuilder(controller).WithContext().WithRequest().WithResponse().WithResponseHeaders(new HeaderDictionary()).WithUrlHelper().Build();
 
             var query = new GetAllValueToReplacesQuery(valueToReplaceParametersDto, controller);
             var result = await mediator.Send(query);
 
             result.PaginationMetadata.HasNext.Should().Be(true);
             result.PaginationMetadata.HasPrevious.Should().Be(false);
+            result.PaginationMetadata.PreviousPageLink.Should().BeNull();
+            result.PaginationMetadata.NextPageLink.Should().NotBeNullOrEmpty();
         }
 
         //TODO: Add tests for PaginationMetadata.NextPageLink, PaginationMetadata.PreviousLink

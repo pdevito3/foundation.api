@@ -3,14 +3,18 @@
     using AutoBogus;
     using AutoMapper;
     using FluentAssertions;
+    using Foundation.Api.Controllers;
     using Foundation.Api.Data;
     using Foundation.Api.Mediator.Commands;
     using Foundation.Api.Models;
     using Foundation.Api.Tests.Fakes;
     using MediatR;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.Extensions.DependencyInjection;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Web.Mvc;
     using Xunit;
 
     public class ValueToReplaceCommandTests : IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -124,31 +128,36 @@
             valueToReplaceDtoFromRepo.ValueToReplaceDateField1.Should().Be(valueToReplaceForUpdateDto.ValueToReplaceDateField1);
         }
 
-        //TODO: figure out better controller mocking for patch
-        //[Fact]
-        //public async Task UpdatePartialValueToReplace_NewValueToReplaceAddedAndReturned()
-        //{
-        //    var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
-        //    var valueToReplacePatchDoc = new JsonPatchDocument<ValueToReplaceForUpdateDto> { };
-        //    valueToReplacePatchDoc.Replace(p => p.ValueToReplaceTextField1, "New Val");
+        [Fact]
+        public async Task UpdatePartialValueToReplace_NewValueToReplaceAddedAndReturned()
+        {
+            var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
+            var valueToReplacePatchDoc = new JsonPatchDocument<ValueToReplaceForUpdateDto> { };
+            valueToReplacePatchDoc.Replace(p => p.ValueToReplaceTextField1, "New Val1");
+            valueToReplacePatchDoc.Replace(p => p.ValueToReplaceTextField2, "New Val2");
+            valueToReplacePatchDoc.Replace(p => p.ValueToReplaceIntField1, 1);
 
-        //    var scope = _factory.Services.CreateScope();
+            var scope = _factory.Services.CreateScope();
 
-        //    var mediator = scope.ServiceProvider.GetService<IMediator>();
-        //    var context = scope.ServiceProvider.GetRequiredService<ValueToReplaceDbContext>();
-        //    context.Database.EnsureCreated();
-        //    context.ValueToReplaces.RemoveRange(context.ValueToReplaces); // change this to use respawn?
-        //    context.ValueToReplaces.Add(fakeValueToReplaceOne);
-        //    context.SaveChanges();
+            var mediator = scope.ServiceProvider.GetService<IMediator>();
+            var context = scope.ServiceProvider.GetRequiredService<ValueToReplaceDbContext>();
+            context.Database.EnsureCreated();
+            context.ValueToReplaces.RemoveRange(context.ValueToReplaces); // change this to use respawn?
+            context.ValueToReplaces.Add(fakeValueToReplaceOne);
+            context.SaveChanges();
 
-        //    var controller = new ValueToReplacesController(mediator);
-        //    var valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
-        //    var query = new UpdatePartialValueToReplaceCommand(valueToReplaceDtoFromRepo.ValueToReplaceId, valueToReplacePatchDoc, controller);
-        //    _ = await mediator.Send(query);
+            var controller = new ValueToReplacesController(mediator);
+            new Helpers.ControllerBuilder(controller).WithContext().WithRequest().WithResponse().WithResponseHeaders(new HeaderDictionary()).WithUrlHelper().Build();
 
-        //    valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
+            var valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
+            var query = new UpdatePartialValueToReplaceCommand(valueToReplaceDtoFromRepo.ValueToReplaceId, valueToReplacePatchDoc, controller);
+            _ = await mediator.Send(query);
 
-        //    valueToReplaceDtoFromRepo.ValueToReplaceTextField1.Should().Be("New Val");
-        //}
+            valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
+
+            valueToReplaceDtoFromRepo.ValueToReplaceTextField1.Should().Be("New Val1");
+            valueToReplaceDtoFromRepo.ValueToReplaceTextField2.Should().Be("New Val2");
+            valueToReplaceDtoFromRepo.ValueToReplaceIntField1.Should().Be(1);
+        }
     }
 }
