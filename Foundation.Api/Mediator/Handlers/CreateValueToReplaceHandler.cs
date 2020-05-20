@@ -26,7 +26,7 @@
 
         public async Task<ValueToReplaceDto> Handle(CreateValueToReplaceCommand createValueToReplaceCommand, CancellationToken cancellationToken)
         {
-            var valueToReplace = _mapper.Map<ValueToReplace>(createValueToReplaceCommand.ValueToReplaceForCreationDto);
+            var valueToReplace = _mapper.Map<ValueToReplace>(createValueToReplaceCommand);
             _valueToReplaceRepository.AddValueToReplace(valueToReplace);
             _valueToReplaceRepository.Save();
 

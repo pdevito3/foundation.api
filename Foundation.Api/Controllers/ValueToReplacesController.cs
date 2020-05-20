@@ -45,7 +45,7 @@
         }
 
         [HttpPost]
-        public ActionResult<ValueToReplaceDto> AddValueToReplace(CreateValueToReplaceCommand command)
+        public ActionResult<ValueToReplaceDto> AddValueToReplace([FromBody]CreateValueToReplaceCommand command)
         {
             var result = _mediator.Send(command);
             return CreatedAtRoute("GetValueToReplace",

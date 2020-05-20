@@ -35,16 +35,16 @@
             context.Database.EnsureCreated();
             context.ValueToReplaces.RemoveRange(context.ValueToReplaces); // change this to use respawn?
 
-            var valueToReplaceForCreationDto = mapper.Map<ValueToReplaceForCreationDto>(fakeValueToReplaceOne);
-            var query = new CreateValueToReplaceCommand(valueToReplaceForCreationDto);
-            var result = await mediator.Send(query);
-            fakeValueToReplaceOne.ValueToReplaceId = result.ValueToReplaceId;
+            var valueToReplaceForCreationDto = mapper.Map<CreateValueToReplaceCommand>(fakeValueToReplaceOne);
+            var result = await mediator.Send(valueToReplaceForCreationDto);
 
-            var valueToReplaceDtoFromRepo = context.ValueToReplaces.ToList();
+            var valueToReplaceDtosFromRepo = context.ValueToReplaces.ToList();
+            var valueToReplaceDtoFromRepo = context.ValueToReplaces.FirstOrDefault();
 
-            valueToReplaceDtoFromRepo.Should().HaveCount(1);
-            valueToReplaceDtoFromRepo.Should().ContainEquivalentOf(result);
-            fakeValueToReplaceOne.Should().BeEquivalentTo(result);
+            valueToReplaceDtosFromRepo.Should().HaveCount(1);
+            valueToReplaceDtoFromRepo.ValueToReplaceTextField1.Should().Be(valueToReplaceForCreationDto.ValueToReplaceTextField1);
+            valueToReplaceDtoFromRepo.ValueToReplaceTextField2.Should().Be(valueToReplaceForCreationDto.ValueToReplaceTextField2);
+            valueToReplaceDtoFromRepo.ValueToReplaceDateField1.Should().Be(valueToReplaceForCreationDto.ValueToReplaceDateField1);
         }
 
         [Fact]
