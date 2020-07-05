@@ -1,11 +1,8 @@
-﻿namespace Foundation.Api.Services
+﻿namespace Foundation.Api.Services.ValueToReplace
 {
     using Foundation.Api.Data.Entities;
-    using Foundation.Api.Models;
     using Foundation.Api.Models.Pagination;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Foundation.Api.Models.ValueToReplaces;
     using System.Threading.Tasks;
 
     public interface IValueToReplaceRepository

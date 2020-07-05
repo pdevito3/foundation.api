@@ -3,7 +3,7 @@
     using FluentAssertions;
     using Foundation.Api.Data;
     using Foundation.Api.Services;
-    using Foundation.Api.Tests.Fakes;
+    using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Sieve.Models;

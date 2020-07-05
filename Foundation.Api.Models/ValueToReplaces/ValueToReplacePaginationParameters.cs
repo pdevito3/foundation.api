@@ -1,4 +1,4 @@
-﻿namespace Foundation.Api.Models.Pagination
+﻿namespace Foundation.Api.Models.ValueToReplaces
 {
     public abstract class ValueToReplacePaginationParameters
     {

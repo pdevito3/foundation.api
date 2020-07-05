@@ -1,6 +1,6 @@
 ﻿namespace Foundation.Api.Validators
 {
-    using Foundation.Api.Models;
+    using Foundation.Api.Models.ValueToReplaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;

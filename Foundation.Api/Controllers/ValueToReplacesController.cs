@@ -5,8 +5,8 @@
     using System.Text.Json;
     using AutoMapper;
     using Foundation.Api.Data.Entities;
-    using Foundation.Api.Models;
     using Foundation.Api.Models.Pagination;
+    using Foundation.Api.Models.ValueToReplaces;
     using Foundation.Api.Services;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;

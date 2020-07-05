@@ -1,10 +1,7 @@
-﻿using Foundation.Api.Models.Pagination;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Foundation.Api.Models
+﻿namespace Foundation.Api.Models.ValueToReplaces
 {
+    using Foundation.Api.Models.Pagination;
+
     public class ValueToReplaceParametersDto : ValueToReplacePaginationParameters
     {
         public string Filters { get; set; }

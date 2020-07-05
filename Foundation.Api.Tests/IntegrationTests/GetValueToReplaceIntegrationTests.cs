@@ -2,18 +2,14 @@
 {
     using FluentAssertions;
     using Foundation.Api.Data;
-    using Foundation.Api.Models;
-    using Foundation.Api.Tests.Fakes;
+    using Foundation.Api.Tests.Fakes.ValueToReplaces;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.AspNetCore.TestHost;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
-    using System;
     using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Text;
     using System.Threading.Tasks;
     using Xunit;
 

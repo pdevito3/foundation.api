@@ -1,7 +1,7 @@
 ﻿namespace Foundation.Api.Validators
 {
     using FluentValidation;
-    using Foundation.Api.Models;
+    using Foundation.Api.Models.ValueToReplaces;
     using System;
 
     public class ValueToReplaceForManipulationDtoValidator<T> : AbstractValidator<T> where T : ValueToReplaceForManipulationDto

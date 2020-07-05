@@ -1,7 +1,5 @@
-﻿namespace Foundation.Api.Models
+﻿namespace Foundation.Api.Models.ValueToReplaces
 {
-    using System;
-
     public class ValueToReplaceForUpdateDto : ValueToReplaceForManipulationDto
     {
     }

@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Foundation.Api.Data.Entities;
-    using Foundation.Api.Models;
+    using Foundation.Api.Models.ValueToReplaces;
 
     public class ValueToReplaceProfile : Profile
     {
