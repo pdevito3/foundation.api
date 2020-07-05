@@ -1,4 +1,4 @@
-﻿namespace Foundation.Api.Models.ValueToReplaces
+﻿namespace Foundation.Api.Models.ValueToReplace
 {
     using Foundation.Api.Models.Pagination;
 

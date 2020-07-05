@@ -6,8 +6,9 @@
     using AutoMapper;
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Models.Pagination;
-    using Foundation.Api.Models.ValueToReplaces;
+    using Foundation.Api.Models.ValueToReplace;
     using Foundation.Api.Services;
+    using Foundation.Api.Services.ValueToReplace;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
 

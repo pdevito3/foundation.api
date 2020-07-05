@@ -3,7 +3,7 @@
     using Foundation.Api.Data;
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Models.Pagination;
-    using Foundation.Api.Models.ValueToReplaces;
+    using Foundation.Api.Models.ValueToReplace;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;

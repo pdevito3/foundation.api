@@ -2,7 +2,7 @@
 {
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Models.Pagination;
-    using Foundation.Api.Models.ValueToReplaces;
+    using Foundation.Api.Models.ValueToReplace;
     using System.Threading.Tasks;
 
     public interface IValueToReplaceRepository

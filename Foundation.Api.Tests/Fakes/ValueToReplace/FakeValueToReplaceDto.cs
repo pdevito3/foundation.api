@@ -1,7 +1,7 @@
 ﻿namespace Foundation.Api.Tests.Fakes.ValueToReplace
 {
     using AutoBogus;
-    using Foundation.Api.Models.ValueToReplaces;
+    using Foundation.Api.Models.ValueToReplace;
 
     // or replace 'AutoFaker' with 'Faker' if you don't want all fields to be auto faked
     public class FakeValueToReplaceDto : AutoFaker<ValueToReplaceDto>
