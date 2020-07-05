@@ -4,6 +4,7 @@
     using Foundation.Api.Data;
     using Foundation.Api.Models.ValueToReplace;
     using Foundation.Api.Services;
+    using Foundation.Api.Services.ValueToReplace;
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
