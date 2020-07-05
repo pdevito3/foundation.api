@@ -1,10 +1,6 @@
-﻿namespace Foundation.Api.Validators
+﻿namespace Foundation.Api.Validators.ValueToReplace
 {
-    using Foundation.Api.Models.ValueToReplaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using Foundation.Api.Models.ValueToReplace;
 
     public class ValueToReplaceForUpdateDtoValidator : ValueToReplaceForManipulationDtoValidator<ValueToReplaceForUpdateDto>
     {

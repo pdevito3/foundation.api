@@ -2,7 +2,7 @@
 {
     using FluentAssertions;
     using Foundation.Api.Data;
-    using Foundation.Api.Models.ValueToReplaces;
+    using Foundation.Api.Models.ValueToReplace;
     using Foundation.Api.Services;
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Microsoft.EntityFrameworkCore;
