@@ -14,6 +14,7 @@
     using System.Linq;
     using Xunit;
 
+    [Collection("Sequential")]
     public class GetValueToReplaceRepositoryTests
     {
         [Fact]

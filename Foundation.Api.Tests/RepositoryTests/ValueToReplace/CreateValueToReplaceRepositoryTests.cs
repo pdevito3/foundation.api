@@ -13,6 +13,7 @@
     using System.Linq;
     using Xunit;
 
+    [Collection("Sequential")]
     public class CreateValueToReplaceRepositoryTests
     {
         [Fact]

@@ -14,6 +14,7 @@
     using System.Dynamic;
     using FluentValidation.Results;
 
+    [Collection("Sequential")]
     public class CreateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;

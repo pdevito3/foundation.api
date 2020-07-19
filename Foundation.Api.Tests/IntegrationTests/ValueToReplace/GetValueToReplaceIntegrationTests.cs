@@ -14,6 +14,7 @@
     using System.Threading.Tasks;
     using Xunit;
 
+    [Collection("Sequential")]
     public class GetValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         public GetValueToReplaceIntegrationTests(CustomWebApplicationFactory<Startup> factory)
@@ -34,7 +35,7 @@
                 var context = scope.ServiceProvider.GetRequiredService<ValueToReplaceDbContext>();
                 context.Database.EnsureCreated();
 
-                context.ValueToReplaces.RemoveRange(context.ValueToReplaces);
+                //context.ValueToReplaces.RemoveRange(context.ValueToReplaces);
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo);
                 context.SaveChanges();
             }
@@ -52,8 +53,10 @@
 
             // Assert
             result.StatusCode.Should().Be(200);
-            response.Should().ContainEquivalentOf(fakeValueToReplaceOne);
-            response.Should().ContainEquivalentOf(fakeValueToReplaceTwo);
+            response.Should().ContainEquivalentOf(fakeValueToReplaceOne, options =>
+                options.ExcludingMissingMembers());
+            response.Should().ContainEquivalentOf(fakeValueToReplaceTwo, options =>
+                options.ExcludingMissingMembers());
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

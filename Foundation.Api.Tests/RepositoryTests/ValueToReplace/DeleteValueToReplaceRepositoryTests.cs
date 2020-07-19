@@ -15,6 +15,7 @@
     using System.Text;
     using Xunit;
 
+    [Collection("Sequential")]
     public class DeleteValueToReplaceRepositoryTests
     {
         [Fact]

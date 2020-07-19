@@ -19,6 +19,7 @@
     using AutoMapper;
     using Foundation.Api.Configuration;
 
+    [Collection("Sequential")]
     public class UpdateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
@@ -29,7 +30,7 @@
         }
 
         [Fact]
-        public async Task PostValueToReplaceReturnsSuccessCodeAndResourceWithAccurateFields()
+        public async Task PatchValueToReplaceReturns204AndFieldsWereSuccessfullyUpdated()
         {
             //Arrange
             var mapper = new MapperConfiguration(cfg =>
@@ -39,7 +40,6 @@
 
             var lookupVal = "Easily Identified Value For Test"; // don't know the id at this scope, so need to have another value to lookup
             var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
-            fakeValueToReplaceOne.ValueToReplaceTextField1 = lookupVal;
             var expectedFinalObject = mapper.Map<ValueToReplaceDto>(fakeValueToReplaceOne);
             expectedFinalObject.ValueToReplaceTextField1 = lookupVal;
 
@@ -65,7 +65,7 @@
 
             // Act
             // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
-            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=valueToReplaceTextField1=={lookupVal}")
+            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
                 .ConfigureAwait(false);
             var getResponseContent = await getResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
@@ -122,7 +122,7 @@
 
             // Act
             // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
-            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceIntField1=={lookupVal}")
+            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
                 .ConfigureAwait(false);
             var getResponseContent = await getResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
