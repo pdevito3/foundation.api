@@ -10,6 +10,8 @@
         {
             // leaving the first 49 for potential special use cases in startup builds that need explicit values
             RuleFor(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceId, lambdaInitialsToReplace => lambdaInitialsToReplace.Random.Number(50, 100000));
+            RuleFor(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceIntField1, lambdaInitialsToReplace => lambdaInitialsToReplace.Random.Number(0, 1000000)); // example validation rul says that it needs be above 0
+            RuleFor(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceDateField1, lambdaInitialsToReplace => lambdaInitialsToReplace.Date.Past()); // example validation rule says it has to be in the past
         }
     }
 }

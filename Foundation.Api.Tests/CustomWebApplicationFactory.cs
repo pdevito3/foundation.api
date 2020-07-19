@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Respawn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,16 @@ namespace Foundation.Api.Tests
 
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
+        // checkpoint for respawn to clear the database when spenning up each time
+        private static Checkpoint checkpoint = new Checkpoint
+        {
+            
+        };
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder
-            .ConfigureServices(services =>
+            .ConfigureServices(async services =>
             {
                 // Remove the app's ValueToReplaceDbContext registration.
                 var descriptor = services.SingleOrDefault(
@@ -51,9 +58,7 @@ namespace Foundation.Api.Tests
 
                     try
                     {
-                        db.RemoveRange(db.ValueToReplaces);
-                        // Seed the database with test data.
-                        //Utilities.InitializeDbForTests(db);
+                        await checkpoint.Reset(db.Database.GetDbConnection());
                     }
                     catch (Exception ex)
                     {
