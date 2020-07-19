@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.Text.Json;
     using AutoMapper;
+    using FluentValidation.AspNetCore;
     using Foundation.Api.Data.Entities;
     using Foundation.Api.Models.Pagination;
     using Foundation.Api.Models.ValueToReplace;
     using Foundation.Api.Services;
     using Foundation.Api.Services.ValueToReplace;
+    using Foundation.Api.Validators.ValueToReplace;
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +32,7 @@
 
 
         [HttpGet(Name = "GetValueToReplaces")]
-        public ActionResult<IEnumerable<ValueToReplaceDto>> GetCategories([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
+        public ActionResult<IEnumerable<ValueToReplaceDto>> GetValueToReplaces([FromQuery] ValueToReplaceParametersDto valueToReplaceParametersDto)
         {
             var valueToReplacesFromRepo = _valueToReplaceRepository.GetValueToReplaces(valueToReplaceParametersDto);
             
@@ -82,6 +84,15 @@
         [HttpPost]
         public ActionResult<ValueToReplaceDto> AddValueToReplace(ValueToReplaceForCreationDto valueToReplaceForCreation)
         {
+            var validationResults = new ValueToReplaceForCreationDtoValidator().Validate(valueToReplaceForCreation);
+            validationResults.AddToModelState(ModelState, null);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ValidationProblemDetails(ModelState));
+                //return ValidationProblem();
+            }
+
             var valueToReplace = _mapper.Map<ValueToReplace>(valueToReplaceForCreation);
             _valueToReplaceRepository.AddValueToReplace(valueToReplace);
             _valueToReplaceRepository.Save();
@@ -116,6 +127,15 @@
             if (valueToReplaceFromRepo == null)
             {
                 return NotFound();
+            }
+
+            var validationResults = new ValueToReplaceForUpdateDtoValidator().Validate(valueToReplace);
+            validationResults.AddToModelState(ModelState, null);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ValidationProblemDetails(ModelState));
+                //return ValidationProblem();
             }
 
             _mapper.Map(valueToReplace, valueToReplaceFromRepo);

@@ -1,4 +1,4 @@
-﻿namespace Foundation.Api.Tests.IntegrationTests
+﻿namespace Foundation.Api.Tests.IntegrationTests.ValueToReplace
 {
     using FluentAssertions;
     using Foundation.Api.Data;

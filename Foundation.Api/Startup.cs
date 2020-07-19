@@ -3,10 +3,8 @@ namespace Foundation.Api
     using AutoBogus;
     using Autofac;
     using AutoMapper;
-    using FluentValidation.AspNetCore;
     using Foundation.Api.Data;
     using Foundation.Api.Data.Entities;
-    using Foundation.Api.Services;
     using Foundation.Api.Services.ValueToReplace;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -16,6 +14,7 @@ namespace Foundation.Api
     using Microsoft.Extensions.Hosting;
     using Sieve.Services;
     using System;
+    using System.Reflection;
 
     public class Startup
     {
@@ -44,8 +43,9 @@ namespace Foundation.Api
             
             services.AddScoped<IValueToReplaceRepository, ValueToReplaceRepository>();
 
-            services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMvc();
+            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddDbContext<ValueToReplaceDbContext>(opt => 
                 opt.UseInMemoryDatabase("ValueToReplaceDb"));
