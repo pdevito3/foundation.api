@@ -94,5 +94,53 @@
             checkResponse.Should().BeEquivalentTo(expectedFinalObject, options =>
                 options.ExcludingMissingMembers());
         }
+
+        [Fact]
+        public async Task BadPatchValueToReplaceReturns400BadRequest()
+        {
+            //Arrange
+            var lookupVal = "Easily Identified Value For Test"; // don't know the id at this scope, so need to have another value to lookup
+            var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
+
+            var appFactory = _factory;
+            using (var scope = appFactory.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ValueToReplaceDbContext>();
+                context.Database.EnsureCreated();
+
+                context.ValueToReplaces.RemoveRange(context.ValueToReplaces);
+                context.ValueToReplaces.AddRange(fakeValueToReplaceOne);
+                context.SaveChanges();
+            }
+
+            var client = appFactory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false
+            });
+
+            var manuallyCreatedInvalidPatchDoc = "[{\"value\":\"" + lookupVal + "\",\"path\":\"/ValueToReplaceIntField1\",\"op\":\"replace\"}]";
+
+            // Act
+            // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
+            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceIntField1=={lookupVal}")
+                .ConfigureAwait(false);
+            var getResponseContent = await getResult.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+            var getResponse = JsonConvert.DeserializeObject<IEnumerable<ValueToReplaceDto>>(getResponseContent);
+            var id = getResponse.FirstOrDefault().ValueToReplaceId;
+
+            // patch it
+            var method = new HttpMethod("PATCH");
+            var patchRequest = new HttpRequestMessage(method, $"api/v1/ValueToReplaceLowers/{id}")
+            {
+                Content = new StringContent(manuallyCreatedInvalidPatchDoc,
+                Encoding.Unicode, "application/json")
+            };
+            var patchResult = await client.SendAsync(patchRequest)
+                .ConfigureAwait(false);
+
+            // Assert
+            patchResult.StatusCode.Should().Be(400);
+        }
     }
 }
