@@ -22,11 +22,13 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 
 ✅ Add Unit Tests
 
-🔲 Add Integration Tests
-
-🔲 Breakout Environments
+✅ Add Integration Tests
 
 🔲 Logging
+
+🔲 Auth
+
+🔲 Breakout Environments
 
 🔲 Devops Pipeline
 
@@ -96,23 +98,30 @@ There are three projects in this template. The below example illustrates an exam
       * **Recipe**: the class that we will use to represent the actual database table
     * **RecipeDbContext**: provides a reference for the database and tables that we will be working using throughout the project
   * Services
-    * **IRecipeRepository**: a list of all of the methods we can use in our data access layer (DAL)
-    * **RecipeRepository**: the actual implementation of each method in IRecipeRepository
+    * Recipe
+      * **IRecipeRepository**: a list of all of the methods we can use in our data access layer (DAL)
+      * **RecipeRepository**: the actual implementation of each method in IRecipeRepository
   * Validators
-    * **RecipeForCreationDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when creating a new entity in the controller
-    * **RecipeForUpdateDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when updating an existing entity in the controller
-    * **RecipeForManipulationDtoValidator**: validation rules that are *shared* between both the creation and update validators
+    * Recipe
+      * **RecipeForCreationDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when creating a new entity in the controller
+      * **RecipeForUpdateDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when updating an existing entity in the controller
+      * **RecipeForManipulationDtoValidator**: validation rules that are *shared* between both the creation and update validators
 * **CarbonKitchen.Recipes.Api.Models**
   * Pagination
     * **PagedList**: a special type of `List` that captures pagination info with your collection (e.g. what page you are on, how big the page is, etc.)
     * **ResourceUriType**: minor enum used to capture the uri of the next and previous pages that our controller will use to provide additional pagination info when returning a list
     * **RecipePaginationParameters**: base parameters specific to pagination that our RecipeParametersDto can inherit when getting a list of entities
-  * **RecipeDto**: the object we will use whenever we want to return a recipe externally
-  * **RecipeForCreationDto**: the object we will expect to receive whenever someone is sending us a recipe to create
-  * **RecipeForUpdateDto**: the object we will expect to use whenever someone wants to edit a recipe
-  * **RecipeForManipulationDto**: the object that captures the shared parameters between both the creation and update DTOs
-  * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (recipes)
+  * Recipe
+    * **RecipeDto**: the object we will use whenever we want to return a recipe externally
+    * **RecipeForCreationDto**: the object we will expect to receive whenever someone is sending us a recipe to create
+    * **RecipeForUpdateDto**: the object we will expect to use whenever someone wants to edit a recipe
+    * **RecipeForManipulationDto**: the object that captures the shared parameters between both the creation and update DTOs
+    * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (recipes)
 * **CarbonKitchen.Recipes.Api.Tests**
+  * **Fakes**: This folder stores the dummy objects that we will use to write cleaner tests. These use [Bogus](https://github.com/bchavez/Bogus) and [AutoBogus](https://github.com/nickdodd79/AutoBogus)
+  * **Repository Tests**: These tests will test our primary data access layer by testing our repositories
+  * **Integration Tests**: These tests will test the actual endpoints in our controllers
+  * **CustomWebApplicationFactory**: In order to run our tests, we need to create a web host specifically for our tests. This factory will be used to perform that operation at the beginning of each test. [Respawn](https://github.com/jbogard/Respawn) is used to clear the database before each test is ran
 
 ## What to Do with a Generated Project
 
