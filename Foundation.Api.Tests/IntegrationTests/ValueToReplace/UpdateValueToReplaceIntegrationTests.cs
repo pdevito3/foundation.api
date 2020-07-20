@@ -18,6 +18,7 @@
     using System.Linq;
     using AutoMapper;
     using Foundation.Api.Configuration;
+    using Bogus;
 
     [Collection("Sequential")]
     public class UpdateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -77,7 +78,7 @@
             var patchRequest = new HttpRequestMessage(method, $"api/v1/ValueToReplaceLowers/{id}")
             {
                 Content = new StringContent(serializedValueToReplaceToUpdate,
-                System.Text.Encoding.Unicode, "application/json")
+                Encoding.Unicode, "application/json")
             };
             var patchResult = await client.SendAsync(patchRequest)
                 .ConfigureAwait(false);
@@ -141,6 +142,70 @@
 
             // Assert
             patchResult.StatusCode.Should().Be(400);
+        }
+
+        [Fact]
+        public async Task PutValueToReplaceReturnsBodyAndFieldsWereSuccessfullyUpdated()
+        {
+            //Arrange
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ValueToReplaceProfile>();
+            }).CreateMapper();
+
+            var lookupVal = "Easily Identified Value For Test"; // don't know the id at this scope, so need to have another value to lookup
+            var newString = "New Val";
+            var newInt = 12;
+            var newDate = new Faker("en").Date.Past();
+            var fakeValueToReplaceOne = new FakeValueToReplace { }.Generate();
+            var expectedFinalObject = mapper.Map<ValueToReplaceDto>(fakeValueToReplaceOne);
+            expectedFinalObject.ValueToReplaceTextField1 = lookupVal;
+            expectedFinalObject.ValueToReplaceTextField2 = newString;
+            expectedFinalObject.ValueToReplaceIntField1 = newInt;
+            expectedFinalObject.ValueToReplaceDateField1 = newDate;
+
+            var appFactory = _factory;
+            using (var scope = appFactory.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ValueToReplaceDbContext>();
+                context.Database.EnsureCreated();
+
+                context.ValueToReplaces.RemoveRange(context.ValueToReplaces);
+                context.ValueToReplaces.AddRange(fakeValueToReplaceOne);
+                context.SaveChanges();
+            }
+
+            var client = appFactory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false
+            });
+
+            var serializedValueToReplaceToUpdate = JsonConvert.SerializeObject(expectedFinalObject);
+
+            // Act
+            // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
+            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
+                .ConfigureAwait(false);
+            var getResponseContent = await getResult.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+            var getResponse = JsonConvert.DeserializeObject<IEnumerable<ValueToReplaceDto>>(getResponseContent);
+            var id = getResponse.FirstOrDefault().ValueToReplaceId;
+
+            // put it
+            var patchResult = await client.PutAsJsonAsync($"api/v1/ValueToReplaceLowers/{id}", expectedFinalObject)
+                .ConfigureAwait(false);
+
+            // get it again to confirm updates
+            var checkResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/{id}")
+                .ConfigureAwait(false);
+            var checkResponseContent = await checkResult.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+            var checkResponse = JsonConvert.DeserializeObject<ValueToReplaceDto>(checkResponseContent);
+
+            // Assert
+            patchResult.StatusCode.Should().Be(204);
+            checkResponse.Should().BeEquivalentTo(expectedFinalObject, options =>
+                options.ExcludingMissingMembers());
         }
     }
 }
