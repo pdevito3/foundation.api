@@ -116,7 +116,7 @@ There are three projects in this template. The below example illustrates an exam
     * **RecipeForCreationDto**: the object we will expect to receive whenever someone is sending us a recipe to create
     * **RecipeForUpdateDto**: the object we will expect to use whenever someone wants to edit a recipe
     * **RecipeForManipulationDto**: the object that captures the shared parameters between both the creation and update DTOs
-    * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (recipes)
+    * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (e.g. Recipes). By default, there is `Filters`, `SortOrder`, and `QueryString`. `Filters` and `SortOrder` are both used by [Sieve](https://github.com/Biarity/Sieve) and `QueryString` will search the given fields in the repository for the value passed into the query string. For example, if you want to search `Title` and `Directions` properties for the query string, it could be passed here. The `Filters` option from Sieve will usually have good flexibility for something like this, but the `QueryString` option is available if you'd like.
 * **CarbonKitchen.Recipes.Api.Tests**
   * **Fakes**: This folder stores the dummy objects that we will use to write cleaner tests. These use [Bogus](https://github.com/bchavez/Bogus) and [AutoBogus](https://github.com/nickdodd79/AutoBogus)
   * **Repository Tests**: These tests will test our primary data access layer by testing our repositories
@@ -127,9 +127,10 @@ There are three projects in this template. The below example illustrates an exam
 
 This template with scaffold out the bones of your project, but there are a few things you'll need to do to have it operate with you entity.
 
-1. Update the parameters in the Entity and the DTOs
+1. Update the parameters in the Entity and the DTOs. It is recommended to do this with a global replace (`ctrl+shift+f`). For example, if you had a `Recipe` entity, you could replace `RecipeTextField1` with `Title`
 2. Update the validators to suit your needs
 3. Adjust Sieve Filters and Sorts on the Entity
-4. Update the QueryString search in the Repository Get List method to use whichever fields you'd like
-5. Update unit tests for gets to accommodate filter and sorts
-6. TBD
+4. Update the QueryString search in the Repository.GetList method to use whichever fields you'd like, or remove it all together. Note that modifications here might require you to update or remove some repository tests.
+5. If needed, update repository tests for gets to accommodate filter and sorts
+6. If needed, update any integration tests 
+7. Add any additional tests  that you may want to run
