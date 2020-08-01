@@ -9,10 +9,11 @@
     using Xunit;
     using Newtonsoft.Json;
     using System.Net.Http;
-    using Foundation.Api.Models.ValueToReplace;
+    using Application.Dtos.ValueToReplace;
     using FluentAssertions;
     using System.Dynamic;
     using FluentValidation.Results;
+    using WebApi;
 
     [Collection("Sequential")]
     public class CreateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>

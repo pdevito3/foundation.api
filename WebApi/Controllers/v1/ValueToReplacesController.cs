@@ -94,12 +94,17 @@
 
             var valueToReplace = _mapper.Map<ValueToReplace>(valueToReplaceForCreation);
             _valueToReplaceRepository.AddValueToReplace(valueToReplace);
-            _valueToReplaceRepository.Save();
+            var saveSuccessful = _valueToReplaceRepository.Save();
 
-            var valueToReplaceDto = _mapper.Map<ValueToReplaceDto>(valueToReplace);
-            return CreatedAtRoute("GetValueToReplace",
-                new { valueToReplaceDto.ValueToReplaceId },
-                valueToReplaceDto);
+            if(saveSuccessful)
+            {
+                var valueToReplaceDto = _mapper.Map<ValueToReplaceDto>(valueToReplace);
+                return CreatedAtRoute("GetValueToReplace",
+                    new { valueToReplaceDto.ValueToReplaceId },
+                    valueToReplaceDto);
+            }
+
+            return StatusCode(500);
         }
 
         [HttpDelete("{valueToReplaceId}")]

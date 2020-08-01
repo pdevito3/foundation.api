@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundation.Api", "Foundation.Api\Foundation.Api.csproj", "{779752A5-2E06-4944-AB4B-D54A16AA60A7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundation.Api.Models", "Foundation.Api.Models\Foundation.Api.Models.csproj", "{EA48F47E-4075-4258-B67A-0DE7C97B5183}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundation.Api.Tests", "Foundation.Api.Tests\Foundation.Api.Tests.csproj", "{A77589CF-B636-4066-A77D-7941987006D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{799646A5-7427-47FF-94F6-8C28C3E01ABC}"
@@ -33,14 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{779752A5-2E06-4944-AB4B-D54A16AA60A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{779752A5-2E06-4944-AB4B-D54A16AA60A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{779752A5-2E06-4944-AB4B-D54A16AA60A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{779752A5-2E06-4944-AB4B-D54A16AA60A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA48F47E-4075-4258-B67A-0DE7C97B5183}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A77589CF-B636-4066-A77D-7941987006D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A77589CF-B636-4066-A77D-7941987006D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A77589CF-B636-4066-A77D-7941987006D0}.Release|Any CPU.ActiveCfg = Release|Any CPU

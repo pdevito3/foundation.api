@@ -9,16 +9,17 @@
     using Xunit;
     using Newtonsoft.Json;
     using System.Net.Http;
-    using Foundation.Api.Models.ValueToReplace;
     using FluentAssertions;
-    using Microsoft.Extensions.DependencyInjection;
-    using Foundation.Api.Data;
+    using Microsoft.Extensions.DependencyInjection;    
     using Microsoft.AspNetCore.JsonPatch;
     using Microsoft.AspNetCore.Mvc.Filters;
     using System.Linq;
     using AutoMapper;
-    using Foundation.Api.Configuration;
     using Bogus;
+    using WebApi;
+    using Application.Mappings;
+    using Application.Dtos.ValueToReplace;
+    using Infrastructure.Persistence.Contexts;
 
     [Collection("Sequential")]
     public class UpdateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>

@@ -1,9 +1,9 @@
 ﻿namespace Foundation.Api.Tests.IntegrationTests.ValueToReplace
 {
+    using Application.Dtos.ValueToReplace;
     using FluentAssertions;
-    using Foundation.Api.Data;
-    using Foundation.Api.Models.ValueToReplace;
     using Foundation.Api.Tests.Fakes.ValueToReplace;
+    using Infrastructure.Persistence.Contexts;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
@@ -12,6 +12,7 @@
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using WebApi;
     using Xunit;
 
     [Collection("Sequential")]

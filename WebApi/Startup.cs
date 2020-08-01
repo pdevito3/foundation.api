@@ -38,7 +38,8 @@ namespace WebApi
             services.AddPersistenceInfrastructure(_config);
             services.AddSharedInfrastructure(_config);
             //services.AddSwaggerExtension();
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
             //services.AddApiVersioningExtension();
         }
 
