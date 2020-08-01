@@ -1,25 +1,63 @@
-﻿namespace Infrastructure.Persistence.Contexts
+﻿namespace Infrastructure.Identity
 {
     using Application.Interfaces;
     using Domain.Common;
-    using Domain.Entities;
+    using Infrastructure.Identity.Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
 
-    public class ValueToReplaceDbContext : DbContext
+    public class IdentityDbContext : DbContext
     {
         private readonly IDateTimeService _dateTimeService;
 
-        public ValueToReplaceDbContext(
-            DbContextOptions<ValueToReplaceDbContext> options,
-            IDateTimeService dateTime) : base(options) 
+        public IdentityDbContext(
+            DbContextOptions<IdentityDbContext> options,
+            IDateTimeService dateTime) : base(options)
         {
             _dateTimeService = dateTime;
         }
 
-        public DbSet<ValueToReplace> ValueToReplaces { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.HasDefaultSchema("Identity");
+            builder.Entity<ApplicationUser>(entity =>
+            {
+                entity.ToTable(name: "User");
+            });
+
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Role");
+            });
+            builder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("UserRoles");
+            });
+            builder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("UserClaims");
+            });
+            builder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("UserLogins");
+            });
+            builder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("RoleClaims");
+
+            });
+            builder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("UserTokens");
+            });
+        }
+
 
         //TODO: Abstract this logic out into an custom inheritable dbcontext
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -54,7 +92,7 @@
                     entry.Entity.LastModifiedBy = "TBD User"; //_currentUserService.UserId;
                     entry.Entity.LastModifiedOn = service.NowUtc;
                     break;
-            }            
+            }
         }
     }
 }
