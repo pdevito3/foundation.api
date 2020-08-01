@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
+using Infrastructure.Persistence.Seeders;
+using Infrastructure.Persistence.Contexts;
 
 namespace WebApi
 {
@@ -49,6 +51,13 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                using (var context = app.ApplicationServices.GetService<ValueToReplaceDbContext>())
+                {
+                    context.Database.EnsureCreated();
+
+                    ValueToReplaceSeeder.SeedSampleValueToReplaceData(app.ApplicationServices.GetService<ValueToReplaceDbContext>());
+                }                
             }
 
             app.UseCors("MyCorsPolicy");
