@@ -14,7 +14,8 @@
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/v1/ValueToReplaceLowers")]
+    [Route("api/ValueToReplaceLowers")]
+    [ApiVersion("1.0")]
     public class ValueToReplacesController : Controller
     {
         private readonly IValueToReplaceRepository _valueToReplaceRepository;

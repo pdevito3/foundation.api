@@ -67,7 +67,7 @@
 
             // Act
             // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
-            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
+            var getResult = await client.GetAsync($"api/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
                 .ConfigureAwait(false);
             var getResponseContent = await getResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
@@ -76,7 +76,7 @@
 
             // patch it
             var method = new HttpMethod("PATCH");
-            var patchRequest = new HttpRequestMessage(method, $"api/v1/ValueToReplaceLowers/{id}")
+            var patchRequest = new HttpRequestMessage(method, $"api/ValueToReplaceLowers/{id}")
             {
                 Content = new StringContent(serializedValueToReplaceToUpdate,
                 Encoding.Unicode, "application/json")
@@ -85,7 +85,7 @@
                 .ConfigureAwait(false);
 
             // get it again to confirm updates
-            var checkResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/{id}")
+            var checkResult = await client.GetAsync($"api/ValueToReplaceLowers/{id}")
                 .ConfigureAwait(false);
             var checkResponseContent = await checkResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
@@ -124,7 +124,7 @@
 
             // Act
             // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
-            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
+            var getResult = await client.GetAsync($"api/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
                 .ConfigureAwait(false);
             var getResponseContent = await getResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
@@ -133,7 +133,7 @@
 
             // patch it
             var method = new HttpMethod("PATCH");
-            var patchRequest = new HttpRequestMessage(method, $"api/v1/ValueToReplaceLowers/{id}")
+            var patchRequest = new HttpRequestMessage(method, $"api/ValueToReplaceLowers/{id}")
             {
                 Content = new StringContent(manuallyCreatedInvalidPatchDoc,
                 Encoding.Unicode, "application/json")
@@ -185,7 +185,7 @@
 
             // Act
             // get the value i want to update. assumes I can use sieve for this field. if this is not an option, just use something else
-            var getResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
+            var getResult = await client.GetAsync($"api/ValueToReplaceLowers/?filters=ValueToReplaceTextField1=={fakeValueToReplaceOne.ValueToReplaceTextField1}")
                 .ConfigureAwait(false);
             var getResponseContent = await getResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
@@ -193,11 +193,11 @@
             var id = getResponse.FirstOrDefault().ValueToReplaceId;
 
             // put it
-            var patchResult = await client.PutAsJsonAsync($"api/v1/ValueToReplaceLowers/{id}", expectedFinalObject)
+            var patchResult = await client.PutAsJsonAsync($"api/ValueToReplaceLowers/{id}", expectedFinalObject)
                 .ConfigureAwait(false);
 
             // get it again to confirm updates
-            var checkResult = await client.GetAsync($"api/v1/ValueToReplaceLowers/{id}")
+            var checkResult = await client.GetAsync($"api/ValueToReplaceLowers/{id}")
                 .ConfigureAwait(false);
             var checkResponseContent = await checkResult.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);

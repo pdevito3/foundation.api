@@ -36,7 +36,7 @@
             var fakeValueToReplace = new FakeValueToReplaceDto().Generate();
 
             // Act
-            var httpResponse = await client.PostAsJsonAsync("api/v1/ValueToReplaceLowers", fakeValueToReplace)
+            var httpResponse = await client.PostAsJsonAsync("api/ValueToReplaceLowers", fakeValueToReplace)
                 .ConfigureAwait(false);
 
             // Assert
@@ -64,7 +64,7 @@
             invalidValueToReplace.ValueToReplaceTextField1 = null;
 
             // Act
-            var httpResponse = await client.PostAsJsonAsync("api/v1/ValueToReplaceLowers", invalidValueToReplace)
+            var httpResponse = await client.PostAsJsonAsync("api/ValueToReplaceLowers", invalidValueToReplace)
                 .ConfigureAwait(false);
 
             // add something like this to read the errors in the body?
@@ -95,7 +95,7 @@
             };
 
             // Act
-            var httpResponse = await client.PostAsJsonAsync("api/v1/ValueToReplaceLowers", invalidValueToReplace)
+            var httpResponse = await client.PostAsJsonAsync("api/ValueToReplaceLowers", invalidValueToReplace)
                 .ConfigureAwait(false);
 
             // Assert

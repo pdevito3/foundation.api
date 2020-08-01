@@ -46,7 +46,7 @@
                 AllowAutoRedirect = false
             });
 
-            var result = await client.GetAsync($"api/v1/ValueToReplaceLowers")
+            var result = await client.GetAsync($"api/ValueToReplaceLowers")
                 .ConfigureAwait(false);
             var responseContent = await result.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);

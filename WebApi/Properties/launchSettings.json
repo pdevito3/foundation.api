@@ -12,7 +12,7 @@
     "Foundation.Api": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "api/v1/ValueToReplaceLowers",
+      "launchUrl": "api/ValueToReplaceLowers",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -21,7 +21,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/v1/ValueToReplaceLowers",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/ValueToReplaceLowers",
       "publishAllPorts": true
     }
   }
