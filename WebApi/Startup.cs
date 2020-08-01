@@ -14,6 +14,7 @@ using Infrastructure.Shared;
 using Infrastructure.Persistence.Seeders;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
+using WebApi.Extensions;
 
 namespace WebApi
 {
@@ -43,7 +44,7 @@ namespace WebApi
             //services.AddSwaggerExtension();
             services.AddControllers()
                 .AddNewtonsoftJson();
-            //services.AddApiVersioningExtension();
+            services.AddApiVersioningExtension();
 
             services.AddHealthChecks();
         }
