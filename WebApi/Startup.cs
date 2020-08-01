@@ -13,6 +13,7 @@ using Infrastructure.Persistence;
 using Infrastructure.Shared;
 using Infrastructure.Persistence.Seeders;
 using Infrastructure.Persistence.Contexts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi
 {
@@ -43,6 +44,8 @@ namespace WebApi
             services.AddControllers()
                 .AddNewtonsoftJson();
             //services.AddApiVersioningExtension();
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +69,7 @@ namespace WebApi
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/api/health");
                 endpoints.MapControllers();
             });
         }
