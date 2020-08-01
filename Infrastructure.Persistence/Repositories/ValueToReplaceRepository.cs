@@ -33,7 +33,7 @@
                 throw new ArgumentNullException(nameof(valueToReplaceParameters));
             }
 
-            var collection = _context.ValueToReplaces as IQueryable<ValueToReplace>;
+            var collection = _context.ValueToReplaces.AsNoTracking();
 
             if (!string.IsNullOrWhiteSpace(valueToReplaceParameters.QueryString))
             {
