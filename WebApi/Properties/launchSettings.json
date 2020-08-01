@@ -11,7 +11,7 @@
   "profiles": {
     "Foundation.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "api/v1/ValueToReplaceLowers",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

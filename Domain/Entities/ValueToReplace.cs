@@ -7,7 +7,7 @@
     using Sieve.Attributes;
 
     [Table("ValueToReplaces")]
-    public class ValueToReplace //: AuditableEntity
+    public class ValueToReplace : AuditableEntity
     {
         [Key]
         [Required]
