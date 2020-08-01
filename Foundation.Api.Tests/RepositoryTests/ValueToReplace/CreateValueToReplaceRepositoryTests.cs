@@ -4,6 +4,7 @@
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Infrastructure.Persistence.Contexts;
     using Infrastructure.Persistence.Repositories;
+    using Infrastructure.Shared.Shared;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Sieve.Models;
@@ -27,7 +28,7 @@
             var fakeValueToReplace = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 var service = new ValueToReplaceRepository(context, new SieveProcessor(sieveOptions));
 
@@ -37,7 +38,7 @@
             }
 
             //Assert
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.Count().Should().Be(1);
 

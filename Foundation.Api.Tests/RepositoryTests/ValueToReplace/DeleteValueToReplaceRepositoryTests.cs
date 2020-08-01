@@ -4,6 +4,7 @@
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Infrastructure.Persistence.Contexts;
     using Infrastructure.Persistence.Repositories;
+    using Infrastructure.Shared.Shared;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Sieve.Models;
@@ -31,7 +32,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
 

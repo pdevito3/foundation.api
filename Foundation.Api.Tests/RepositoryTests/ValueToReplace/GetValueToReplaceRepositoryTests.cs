@@ -5,6 +5,7 @@
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Infrastructure.Persistence.Contexts;
     using Infrastructure.Persistence.Repositories;
+    using Infrastructure.Shared.Shared;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Sieve.Models;
@@ -28,7 +29,7 @@
             var fakeValueToReplace = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplace);
                 context.SaveChanges();
@@ -60,7 +61,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -96,7 +97,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -131,7 +132,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -170,7 +171,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField1 = "Charlie";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -206,7 +207,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField1 = "Charlie";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -257,7 +258,7 @@
             fakeValueToReplaceThree.ValueToReplaceIntField1 = 7;
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -300,7 +301,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField2 = "Jonfav";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -342,7 +343,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField2 = "Jonfav";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions))
+            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();

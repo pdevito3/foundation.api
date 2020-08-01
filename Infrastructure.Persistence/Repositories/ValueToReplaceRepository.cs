@@ -33,7 +33,7 @@
                 throw new ArgumentNullException(nameof(valueToReplaceParameters));
             }
 
-            var collection = _context.ValueToReplaces.AsNoTracking();
+            var collection = _context.ValueToReplaces as IQueryable<ValueToReplace>; // TODO: AsNoTracking() should increase performance, but will break the sort tests. need to investigate
 
             if (!string.IsNullOrWhiteSpace(valueToReplaceParameters.QueryString))
             {
