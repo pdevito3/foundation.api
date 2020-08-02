@@ -14,6 +14,12 @@ using Infrastructure.Shared;
 using Infrastructure.Persistence.Seeders;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Infrastructure.Identity.Entities;
+using Infrastructure.Identity.Seeder;
+using Infrastructure.Identity;
+using WebApi.Extensions;
+using Autofac;
 
 namespace WebApi
 {
@@ -38,15 +44,20 @@ namespace WebApi
             });
 
             services.AddApplicationLayer();
+            services.AddIdentityInfrastructure(_config);
             services.AddPersistenceInfrastructure(_config);
             services.AddSharedInfrastructure(_config);
             //services.AddSwaggerExtension();
             services.AddControllers()
                 .AddNewtonsoftJson();
-            //services.AddApiVersioningExtension();
-
+            services.AddApiVersioningExtension();
             services.AddHealthChecks();
         }
+
+        // https://autofaccn.readthedocs.io/en/latest/integration/aspnetcore.html
+        /*public void ConfigureContainer(ContainerBuilder builder)
+        {
+        }*/
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,12 +71,22 @@ namespace WebApi
                     context.Database.EnsureCreated();
 
                     ValueToReplaceSeeder.SeedSampleValueToReplaceData(app.ApplicationServices.GetService<ValueToReplaceDbContext>());
-                }                
+                }
+
+                var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
+                var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+                RoleSeeder.SeedDemoRolesAsync(roleManager);
+                SuperAdminSeeder.SeedDemoSuperAdminsAsync(userManager);
+                BasicUserSeeder.SeedDemoBasicUser(userManager);
             }
 
             app.UseCors("MyCorsPolicy");
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseErrorHandlingMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

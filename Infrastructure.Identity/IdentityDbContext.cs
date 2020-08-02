@@ -8,8 +8,9 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-    public class IdentityDbContext : DbContext
+    public class IdentityDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly IDateTimeService _dateTimeService;
 
@@ -19,8 +20,6 @@
         {
             _dateTimeService = dateTime;
         }
-
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
