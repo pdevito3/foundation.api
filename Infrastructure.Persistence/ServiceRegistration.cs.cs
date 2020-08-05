@@ -13,6 +13,7 @@
     {
         public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            #region DbContext -- Do Not Delete
             services.AddDbContext<ValueToReplaceDbContext>(opt =>
                 opt.UseInMemoryDatabase("ValueToReplaceDb"));
             /*if (configuration.GetValue<bool>("UseInMemoryDatabase"))
@@ -27,10 +28,11 @@
                         configuration.GetConnectionString("DefaultConnection"),
                         builder => builder.MigrationsAssembly(typeof(ValueToReplaceDbContext).Assembly.FullName)));
             }*/
+            #endregion
 
             services.AddScoped<SieveProcessor>();
 
-            #region Repositories
+            #region Repositories -- Do Not Delete
             services.AddScoped<IValueToReplaceRepository, ValueToReplaceRepository>();
             //services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
             //services.AddTransient<IValueToReplaceRepositoryAsync, ValueToReplaceRepositoryAsync>();
