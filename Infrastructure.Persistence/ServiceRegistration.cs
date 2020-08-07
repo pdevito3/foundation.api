@@ -14,12 +14,10 @@
         public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             #region DbContext -- Do Not Delete
-            services.AddDbContext<ValueToReplaceDbContext>(opt =>
-                opt.UseInMemoryDatabase("ValueToReplaceDb"));
-            /*if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ValueToReplaceDbContext>(options =>
-                    options.UseInMemoryDatabase($"Database{Guid.NewGuid()}"));
+                    options.UseInMemoryDatabase($"ValueToReplaceDb"));
             }
             else
             {
@@ -27,7 +25,7 @@
                     options.UseSqlServer(
                         configuration.GetConnectionString("DefaultConnection"),
                         builder => builder.MigrationsAssembly(typeof(ValueToReplaceDbContext).Assembly.FullName)));
-            }*/
+            }
             #endregion
 
             services.AddScoped<SieveProcessor>();

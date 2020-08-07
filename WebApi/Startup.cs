@@ -66,12 +66,14 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
 
+                #region Entity Context Region - Do Not Delete
                 using (var context = app.ApplicationServices.GetService<ValueToReplaceDbContext>())
                 {
                     context.Database.EnsureCreated();
 
                     ValueToReplaceSeeder.SeedSampleValueToReplaceData(app.ApplicationServices.GetService<ValueToReplaceDbContext>());
                 }
+                #endregion
 
                 var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
                 var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
