@@ -56,12 +56,14 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
 
+                #region Entity Context Region - Do Not Delete
                 using (var context = app.ApplicationServices.GetService<ValueToReplaceDbContext>())
                 {
                     context.Database.EnsureCreated();
 
                     ValueToReplaceSeeder.SeedSampleValueToReplaceData(app.ApplicationServices.GetService<ValueToReplaceDbContext>());
-                }                
+                }
+                #endregion                
             }
 
             app.UseCors("MyCorsPolicy");
