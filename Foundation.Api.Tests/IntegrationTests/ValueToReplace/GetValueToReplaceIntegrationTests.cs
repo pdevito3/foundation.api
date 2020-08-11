@@ -16,14 +16,14 @@
     using Xunit;
 
     [Collection("Sequential")]
-    public class GetValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class GetValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
-        public GetValueToReplaceIntegrationTests(CustomWebApplicationFactory<Startup> factory)
+        public GetValueToReplaceIntegrationTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
         }
 
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
         [Fact]
         public async Task GetValueToReplaces_ReturnsSuccessCodeAndResourceWithAccurateFields()
         {
@@ -60,8 +60,8 @@
                 options.ExcludingMissingMembers());
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        /*public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>();*/
     }
 }

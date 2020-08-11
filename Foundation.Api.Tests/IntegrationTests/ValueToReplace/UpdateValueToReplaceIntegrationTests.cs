@@ -12,21 +12,19 @@
     using FluentAssertions;
     using Microsoft.Extensions.DependencyInjection;    
     using Microsoft.AspNetCore.JsonPatch;
-    using Microsoft.AspNetCore.Mvc.Filters;
     using System.Linq;
     using AutoMapper;
     using Bogus;
-    using WebApi;
     using Application.Mappings;
     using Application.Dtos.ValueToReplace;
     using Infrastructure.Persistence.Contexts;
 
     [Collection("Sequential")]
-    public class UpdateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class UpdateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
 
-        public UpdateValueToReplaceIntegrationTests(CustomWebApplicationFactory<Startup> factory)
+        public UpdateValueToReplaceIntegrationTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
         }

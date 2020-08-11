@@ -2,25 +2,23 @@
 {
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Microsoft.AspNetCore.Mvc.Testing;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
     using Xunit;
     using Newtonsoft.Json;
     using System.Net.Http;
     using Application.Dtos.ValueToReplace;
     using FluentAssertions;
-    using System.Dynamic;
-    using FluentValidation.Results;
     using WebApi;
+    using System.Collections;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
     [Collection("Sequential")]
-    public class CreateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class CreateValueToReplaceIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
 
-        public CreateValueToReplaceIntegrationTests(CustomWebApplicationFactory<Startup> factory)
+        public CreateValueToReplaceIntegrationTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
         }
@@ -75,8 +73,9 @@
             httpResponse.StatusCode.Should().Be(400);
         }
 
-        [Fact]
-        public async Task PostInvalidValueToReplaceDateField1ReturnsBadRequestCode()
+        [Theory]
+        [MemberData(nameof(AnonymousTypeObjects))]
+        public async Task PostInvalidValueToReplaceDateField1ReturnsBadRequestCode(object invalidValueToReplace)
         {
             // Arrange
             var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -85,14 +84,10 @@
             });
 
             // intentionally bad date field, can't use normal object because c# will yell about the date value not being valid
-            var invalidValueToReplace = new
+/*            var invalidValueToReplace = new
             {
-                ValueToReplaceId = 1783336605,
-                ValueToReplaceIntField1 = 0,
-                ValueToReplaceTextField1 = "Investor",
-                ValueToReplaceTextField2 = "focus group",
-                ValueToReplaceDateField1 = "InvalidDateValue"
-            };
+                
+            };*/
 
             // Act
             var httpResponse = await client.PostAsJsonAsync("api/ValueToReplaceLowers", invalidValueToReplace)
@@ -100,6 +95,16 @@
 
             // Assert
             httpResponse.StatusCode.Should().Be(400);
+        }
+
+        public static IEnumerable<object[]> AnonymousTypeObjects()
+        {
+            return new List<object[]>
+            {
+                new object[] { new { } },
+                new object[] { new { RandomFieldThatDoesntExist = "" } },
+                new object[] { new { ValuetoReplaceDateField1 = "" } },
+            };
         }
     }
 }

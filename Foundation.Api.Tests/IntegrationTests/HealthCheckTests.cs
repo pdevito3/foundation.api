@@ -14,14 +14,14 @@
     using Xunit;
 
     [Collection("Sequential")]
-    public class HealthCheckTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class HealthCheckTests : IClassFixture<CustomWebApplicationFactory>
     {
-        public HealthCheckTests(CustomWebApplicationFactory<Startup> factory)
+        public HealthCheckTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
         }
 
-        private readonly CustomWebApplicationFactory<Startup> _factory;
+        private readonly CustomWebApplicationFactory _factory;
         [Fact]
         public async Task HealthCheckReturn200Code()
         {

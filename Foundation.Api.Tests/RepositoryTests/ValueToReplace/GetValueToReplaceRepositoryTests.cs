@@ -37,7 +37,7 @@
                 var service = new ValueToReplaceRepository(context, new SieveProcessor(sieveOptions));
 
                 //Assert
-                var valueToReplaceById = context.ValueToReplaces.FirstOrDefault(lambdaInitialsToReplace => lambdaInitialsToReplace.ValueToReplaceId == fakeValueToReplace.ValueToReplaceId);
+                var valueToReplaceById = service.GetValueToReplace(fakeValueToReplace.ValueToReplaceId);
 
                 valueToReplaceById.Should().BeEquivalentTo(fakeValueToReplace);
                 valueToReplaceById.ValueToReplaceId.Should().Be(fakeValueToReplace.ValueToReplaceId);
