@@ -1,8 +1,6 @@
-﻿namespace Foundation.Api.Tests.IntegrationTests.ValueToReplace
+﻿namespace Foundation.Api.Tests.IntegrationTests
 {
-    using Application.Dtos.ValueToReplace;
     using FluentAssertions;
-    using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Infrastructure.Persistence.Contexts;
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
