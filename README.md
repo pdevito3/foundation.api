@@ -4,37 +4,25 @@
 
 This template uses .Net Core 3.1, to create a foundation for a standard CRUD API using the .Net Template Engine to create new projects on demand using `dotnet new`.
 
+> Note that, while this package can be used as a stand alone template using the processes described below, it is optimized to be run using the [craftsman dotnet tool](https://github.com/pdevito3/craftsman). For the best development experience, please see the linked `craftsman` repo for operational details.
+
 ## Prerequisites
 
 - VS2019 .Net Core Feature Set or .Net Core 3.1 SDK https://dotnet.microsoft.com/download/dotnet-core/3.1
 
 ## ToDo
 
-✅ Basic Scaffold
+✅ Basic 'Clean' Scaffold					✅ Repository Pattern					✅ DTOs with Automapper Profiles
 
-✅ Basic CRUD Operations
+✅ Basic CRUD Operations				✅ Add Fluent Validation				✅ Add Custom Pagination
 
-✅ Add Fluent Validation
+✅ Add Sieve Filters and Sorting		✅ Healthchecks							✅ Add Unit Tests
 
-✅ Add Custom Pagination
+✅ Add Integration Tests					 🔲 Swagger									🔲 Logging
 
-✅ Add Sieve Filters and Sorting
+🔲DbMigrations								  🔲 Auth										    🔲 Breakout Environments			 
 
-✅ Add Unit Tests
-
-✅ Add Integration Tests
-
-🔲 Logging
-
-🔲 Auth
-
-🔲 Breakout Environments
-
-🔲 Devops Pipeline
-
-🔲 Add CQRS Config
-
-🔲 Config File (i.e. CloudFormation script)
+🔲 Rookout										 🔲 CloudFormation Scripts			  🔲 CircleCi
 
 ## First Time Template Installation
 
@@ -72,60 +60,43 @@ After your first use of the template, you'll want to make sure that you're using
 
 #### Condensed Code For Using an Updated Template 
 ```bash
-λ cd "C:\Users\Paul\Documents\repos\Foundation.Api"
+cd "C:\Users\Paul\Documents\repos\Foundation.Api"
 
-λ dotnet new -u "C:\Users\Paul\Documents\repos\Foundation.Api"
+dotnet new -u "C:\Users\Paul\Documents\repos\Foundation.Api"
 
-λ dotnet new -i .\
+dotnet new -i .\
 
-λ cd..
+cd..
 
-λ dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" -la "r"
+dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" -la "r"
 ```
 
 ## Project Structure
-There are three projects in this template. The below example illustrates an example for a `Recipe` entity in a project named `CarbonKitchen.Recipes.Api`
+Instead of making you learn some custom directory structure, this template was built using the well known clean architecture format. If you are not familiar with it, the [Clean Architecture](#clean-architecture) section breakdown of the project structure.
 
-* **CarbonKitchen.Recipes.Api** 
-  * Properties
-    * **launchsettings.json**: the configurations available for launching the API from Visual Studio
-  * Configuration
-    * **RecipeProfile**: the mapping profiles for [automapper](https://github.com/AutoMapper/AutoMapper) to easily map data between objects
-  * Controllers
-    * **RecipeController**: the actual endpoints that the API will expose for consumption
-  * Data
-    * Entities
-      * **Recipe**: the class that we will use to represent the actual database table
-    * **RecipeDbContext**: provides a reference for the database and tables that we will be working using throughout the project
-  * Services
-    * Recipe
-      * **IRecipeRepository**: a list of all of the methods we can use in our data access layer (DAL)
-      * **RecipeRepository**: the actual implementation of each method in IRecipeRepository
-  * Validators
-    * Recipe
-      * **RecipeForCreationDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when creating a new entity in the controller
-      * **RecipeForUpdateDtoValidator**: validation rules using [fluent validation](https://github.com/FluentValidation/FluentValidation) when updating an existing entity in the controller
-      * **RecipeForManipulationDtoValidator**: validation rules that are *shared* between both the creation and update validators
-* **CarbonKitchen.Recipes.Api.Models**
-  * Pagination
-    * **PagedList**: a special type of `List` that captures pagination info with your collection (e.g. what page you are on, how big the page is, etc.)
-    * **ResourceUriType**: minor enum used to capture the uri of the next and previous pages that our controller will use to provide additional pagination info when returning a list
-    * **RecipePaginationParameters**: base parameters specific to pagination that our RecipeParametersDto can inherit when getting a list of entities
-  * Recipe
-    * **RecipeDto**: the object we will use whenever we want to return a recipe externally
-    * **RecipeForCreationDto**: the object we will expect to receive whenever someone is sending us a recipe to create
-    * **RecipeForUpdateDto**: the object we will expect to use whenever someone wants to edit a recipe
-    * **RecipeForManipulationDto**: the object that captures the shared parameters between both the creation and update DTOs
-    * **RecipeParametersDto**: this object captures all of the parameters that we are able to receive when getting a list of entities (e.g. Recipes). By default, there is `Filters`, `SortOrder`, and `QueryString`. `Filters` and `SortOrder` are both used by [Sieve](https://github.com/Biarity/Sieve) and `QueryString` will search the given fields in the repository for the value passed into the query string. For example, if you want to search `Title` and `Directions` properties for the query string, it could be passed here. The `Filters` option from Sieve will usually have good flexibility for something like this, but the `QueryString` option is available if you'd like.
-* **CarbonKitchen.Recipes.Api.Tests**
-  * **Fakes**: This folder stores the dummy objects that we will use to write cleaner tests. These use [Bogus](https://github.com/bchavez/Bogus) and [AutoBogus](https://github.com/nickdodd79/AutoBogus)
-  * **Repository Tests**: These tests will test our primary data access layer by testing our repositories
-  * **Integration Tests**: These tests will test the actual endpoints in our controllers
-  * **CustomWebApplicationFactory**: In order to run our tests, we need to create a web host specifically for our tests. This factory will be used to perform that operation at the beginning of each test. [Respawn](https://github.com/jbogard/Respawn) is used to clear the database before each test is ran
+### Clean Architecture
+
+#### Core
+
+The core layer is split into two projects, the `Application` and `Domain` layers. 
+
+The `Domain` project is pretty simple and will capture all of the entities and items directly related to that. This layer should never depend on any other project.
+
+The `Application` project is meant to abstract out our specific business rules for our application. It is dependent on the `Domain` layer, but has no dependencies on any other layer or project. This layer defines our interfaces, DTOs, Enums, Exceptions, Mapping Profiles, Validators, and Wrappers that can be used by our external layers.
+
+#### Infrastructure
+
+Our infrastructure layer is used for all of our external communication requirements (e.g. database communication). For more control, this layer is split into a `Persistence`  project as well as a `Shared` project. Additional layers can be added here if needed (e.g. `Auth`).
+
+The `Persistence`  project will capture our application specific database configuration. The `Shared` project will capture any external service requirements that we may need across our infrastructure layer (e.g. DateTimeService).
+
+#### API
+
+Finally, we have our API layer. This is where our `WebApi` project will live to provide us access to our API endpoints. This layer depends on both the `Core` and `Infrastructure` layers,  however, the dependency on `Infrastructure` is only to support dependency  injection. Therefore only `Startup` classes should reference `Infrastructure`.
 
 ## What to Do with a Generated Project
 
-This template with scaffold out the bones of your project, but there are a few things you'll need to do to have it operate with you entity.
+If you're using this as a standalone template and not with `Craftsman`, this template with scaffold out the bones of your project, but there are a few things you'll need to do to have it operate with you entity.
 
 1. Update the parameters in the Entity and the DTOs. It is recommended to do this with a global replace (`ctrl+shift+f`). For example, if you had a `Recipe` entity, you could replace `RecipeTextField1` with `Title`
 2. Update the validators to suit your needs
