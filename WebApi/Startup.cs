@@ -30,23 +30,17 @@ namespace WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("MyCorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
-
+            services.AddCorsService("MyCorsPolicy");
             services.AddApplicationLayer();
             services.AddPersistenceInfrastructure(_config);
             services.AddSharedInfrastructure(_config);
-            //services.AddSwaggerExtension();
             services.AddControllers()
                 .AddNewtonsoftJson();
             services.AddApiVersioningExtension();
-
             services.AddHealthChecks();
+
+            #region Dynamic Services
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +69,9 @@ namespace WebApi
                 endpoints.MapHealthChecks("/api/health");
                 endpoints.MapControllers();
             });
+
+            #region Dynamic App
+            #endregion
         }
     }
 }
