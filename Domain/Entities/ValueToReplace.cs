@@ -3,15 +3,15 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Domain.Common;
     using Sieve.Attributes;
 
     [Table("ValueToReplaces")]
-    public class ValueToReplace : AuditableEntity
+    public class ValueToReplace 
     {
         [Key]
         [Required]
         [Column("ValueToReplaceId")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Sieve(CanFilter = true, CanSort = true)]
         public int ValueToReplaceId { get; set; }
 
