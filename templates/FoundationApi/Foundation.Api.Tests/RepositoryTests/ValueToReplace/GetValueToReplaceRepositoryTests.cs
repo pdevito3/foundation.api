@@ -29,7 +29,7 @@
             var fakeValueToReplace = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplace);
                 context.SaveChanges();
@@ -61,7 +61,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -97,7 +97,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -132,7 +132,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -171,7 +171,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField1 = "Charlie";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -207,7 +207,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField1 = "Charlie";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -258,7 +258,7 @@
             fakeValueToReplaceThree.ValueToReplaceIntField1 = 7;
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -301,7 +301,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField2 = "Jonfav";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();
@@ -343,7 +343,7 @@
             fakeValueToReplaceThree.ValueToReplaceTextField2 = "Jonfav";
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
                 context.SaveChanges();

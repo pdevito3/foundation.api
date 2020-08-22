@@ -6,12 +6,11 @@
     using Sieve.Attributes;
 
     [Table("ValueToReplaces")]
-    public class ValueToReplace 
+    public class ValueToReplace
     {
         [Key]
         [Required]
         [Column("ValueToReplaceId")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Sieve(CanFilter = true, CanSort = true)]
         public int ValueToReplaceId { get; set; }
 

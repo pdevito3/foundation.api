@@ -32,7 +32,7 @@
             var fakeValueToReplaceThree = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.AddRange(fakeValueToReplaceOne, fakeValueToReplaceTwo, fakeValueToReplaceThree);
 

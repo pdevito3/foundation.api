@@ -15,6 +15,5 @@
         }
 
         public DbSet<ValueToReplace> ValueToReplaces { get; set; }
-
     }
 }

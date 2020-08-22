@@ -28,7 +28,7 @@
             var fakeValueToReplace = new FakeValueToReplace { }.Generate();
 
             //Act
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 var service = new ValueToReplaceRepository(context, new SieveProcessor(sieveOptions));
 
@@ -38,7 +38,7 @@
             }
 
             //Assert
-            using (var context = new ValueToReplaceDbContext(dbOptions, new DateTimeService()))
+            using (var context = new ValueToReplaceDbContext(dbOptions))
             {
                 context.ValueToReplaces.Count().Should().Be(1);
 
