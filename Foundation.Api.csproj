@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/pdevito3/foundation.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <TargetFrameworks>netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
 
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
