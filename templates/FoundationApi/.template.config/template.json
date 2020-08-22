@@ -58,7 +58,8 @@
           "**/*.user",
           "**/*.lock.json",
           "**/*.nuspec",
-          "README.md"
+          "README.md",
+          "LICENSE.txt"
         ]
       }
     ]
