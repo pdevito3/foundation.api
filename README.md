@@ -24,14 +24,32 @@ This template uses .Net Core 3.1, to create a foundation for a standard CRUD API
 
 🔲 Rookout										 🔲 CloudFormation Scripts			  🔲 CircleCi
 
-## First Time Template Installation
+## Getting Started
 
-For your first time using this template, follow these steps to get things set up.
+To get started, all you need to do is run the following command to install it. Once installed, you can use it as described [here](#using-the-template-to-create-an-api)
 
-1. Clone this repository to your computer in an accessible location: `git clone https://github.com/pdevito3/foundation.api`
-2. Open a command prompt to the folder directory at the root of the api template repo
-3. Run the following command: `dotnet new -i .\`
-4. Confirm the installation by running `dotnet new -l` 
+```shell
+dotnet new -i foundation.api
+```
+
+To see the packages you can run 
+
+```shell
+dotnet new -u
+```
+
+To check or apply for updates you can run each of the respectively:
+
+```shell
+dotnet new foundation.api --update-check
+dotnet new foundation.api --update-apply
+```
+
+And to uninstall it, you can run this:
+
+```shell
+dotnet new -u Foundation.Api
+```
 
 ## Using the Template to Create an API
 Once a successful installation has completed, you can use the `dotnet new` command along with a few different parameters to create your project. 
@@ -45,30 +63,6 @@ Once a successful installation has completed, you can use the `dotnet new` comma
 ### Example Command for Creating an API for a Recipe Entity
 ```bash
 λ dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" --la "r"
-```
-
-## Updating/Removing The Template
-After your first use of the template, you'll want to make sure that you're using the most recent version. Unfortunately there isn't a smooth way to update the template after install. You must first manually remove the template and re-add it once again after retrieving the latest commit from this repository. This can be done using the `dotnet new -u [your repo dir]`, for example: `dotnet new -u "C:\Users\Paul\Documents\repos\Foundation.Api"` 
-
-### Creating a New Project with an Updated Template
-1. Pull the latest updates from the master remote.
-2. Using the command prompt, `cd` to your your repository directory.
-3. Run the uninstall script using `new`. Use `dotnet new -u [your repo dir]`. For example: `dotnet new -u "C:\Users\Paul\Documents\repos\Foundation.Api"`.
-4. run `dotnet new -i .\` to reinstall the foundation template 
-5. `cd` to the directory that you want to add your new repository
-6. run `dotnet new foundation` as you normally would
-
-#### Condensed Code For Using an Updated Template 
-```bash
-cd "C:\Users\Paul\Documents\repos\Foundation.Api"
-
-dotnet new -u "C:\Users\Paul\Documents\repos\Foundation.Api"
-
-dotnet new -i .\
-
-cd..
-
-dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" -la "r"
 ```
 
 ## Project Structure
@@ -105,3 +99,31 @@ If you're using this as a standalone template and not with `Craftsman`, this tem
 5. If needed, update repository tests for gets to accommodate filter and sorts
 6. If needed, update any integration tests 
 7. Add any additional tests  that you may want to run
+
+## Running the Template Locally 
+
+While the nuget installation is recommended, you can also run it locally if you'd like.
+
+### First Time Template Installation
+
+For your first time using this template, follow these steps to get things set up.
+
+1. Clone this repository to your computer in an accessible location: `git clone https://github.com/pdevito3/foundation.api`
+2. Pull the latest updates from the master remote, if needed.
+3. Run the uninstall script using `new`. Use `dotnet new -u [your repo dir]`. For example: `dotnet new -u C:\Users\Paul\Documents\repos\Foundation.Api\templates\FoundationApi`.
+4. Using the command prompt, `cd` to your your repository directory. For example: `cd C:\Users\Paul\Documents\repos\Foundation.Api`
+5. Run `dotnet new -i .\` to reinstall the foundation template 
+6. `cd` to the directory that you want to add your new repository
+7. run `dotnet new foundation` as you normally would to create your project
+
+#### Condensed Code For Using an Updated Template 
+
+```bash
+dotnet new -u C:\Users\Paul\Documents\repos\Foundation.Api\templates\FoundationApi
+cd C:\Users\Paul\Documents\repos\Foundation.Api
+dotnet new -i .\
+cd..
+dotnet new foundation -n CarbonKitchen.Recipes.Api -e "Recipe" -en "recipe" -la "r"
+```
+
+## 
