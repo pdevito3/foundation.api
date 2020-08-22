@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <PackageType>Template</PackageType>
+    <PackageVersion>0.1.0</PackageVersion>
+    <PackageId>Foundation.Api</PackageId>
+    <Title>Foundation API</Title>
+    <Authors>Paul DeVito</Authors>
+    <Description>This template creates a foundational Web API. Note that, while this package can be used as a stand alone template using the processes described below, it is optimized to be run using the `craftsman` dotnet tool.</Description>
+    <PackageTags>dotnet-new;templates;webapi;restfulapi;rest</PackageTags>
+    <RepositoryUrl>https://github.com/pdevito3/foundation.api</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TargetFrameworks>netstandard2.1;netcoreapp3.1</TargetFrameworks>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+</Project>
