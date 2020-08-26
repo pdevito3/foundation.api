@@ -30,7 +30,8 @@
                 options.AddPolicy(policyName,
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("X-Pagination"));
             });
         }
     }
