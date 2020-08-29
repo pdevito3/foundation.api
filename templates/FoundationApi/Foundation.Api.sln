@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{B83E74E3-9161-40D1-8F6F-977AC18683BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{3A407E5B-2F77-4517-9777-FC2A3F41129E}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foundation.Api.Tests", "Foundation.Api.Tests\Foundation.Api.Tests.csproj", "{A77589CF-B636-4066-A77D-7941987006D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{799646A5-7427-47FF-94F6-8C28C3E01ABC}"
@@ -18,10 +22,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Persistence", "Infrastructure.Persistence\Infrastructure.Persistence.csproj", "{3F5B0CC8-9672-4279-A9AC-F4DCB49804A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Shared", "Infrastructure.Shared\Infrastructure.Shared.csproj", "{A9F8E14F-91C6-41BB-B2BA-85EB042A13A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{B83E74E3-9161-40D1-8F6F-977AC18683BD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{3A407E5B-2F77-4517-9777-FC2A3F41129E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
