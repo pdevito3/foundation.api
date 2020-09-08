@@ -15,6 +15,9 @@ using Infrastructure.Persistence.Seeders;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using WebApi.Extensions;
+using Infrastructure.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
+using Infrastructure.Identity.Seeder;
 
 namespace WebApi
 {
@@ -60,9 +63,17 @@ namespace WebApi
                 #endregion                
             }
 
+            var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
+            var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+            RoleSeeder.SeedDemoRolesAsync(roleManager);
+            SuperAdminSeeder.SeedDemoSuperAdminsAsync(userManager);
+            BasicUserSeeder.SeedDemoBasicUser(userManager);
+
             app.UseCors("MyCorsPolicy");
 
-            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseErrorHandlingMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Shared.Shared
+﻿namespace Infrastructure.Shared.Services
 {
     using Application.Interfaces;
     using System;
