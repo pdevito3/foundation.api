@@ -1,6 +1,6 @@
 ﻿namespace Application.Interfaces
 {
-    using Application.Dtos.Auth;
+    using Application.Dtos.Shared;
     using System.Threading.Tasks;
 
     public interface IEmailService

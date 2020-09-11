@@ -1,6 +1,7 @@
 ﻿namespace Infrastructure.Identity.Services
 {
     using Application.Dtos.Auth;
+    using Application.Dtos.Shared;
     using Application.Exceptions;
     using Application.Interfaces;
     using Application.Wrappers;

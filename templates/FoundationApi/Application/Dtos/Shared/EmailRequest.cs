@@ -1,4 +1,4 @@
-﻿namespace Application.Dtos.Auth
+﻿namespace Application.Dtos.Shared
 {
     public class EmailRequest
     {
