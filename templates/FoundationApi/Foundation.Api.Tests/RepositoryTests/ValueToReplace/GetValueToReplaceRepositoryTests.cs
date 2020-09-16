@@ -5,7 +5,6 @@
     using Foundation.Api.Tests.Fakes.ValueToReplace;
     using Infrastructure.Persistence.Contexts;
     using Infrastructure.Persistence.Repositories;
-    using Infrastructure.Shared.Shared;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Sieve.Models;
