@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Authorization;
 using WebApi.Extensions;
 using Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
-using Infrastructure.Identity.Seeder;
 
 namespace WebApi
 {
@@ -65,9 +64,6 @@ namespace WebApi
 
             var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
             var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
-            RoleSeeder.SeedDemoRolesAsync(roleManager);
-            SuperAdminSeeder.SeedDemoSuperAdminsAsync(userManager);
-            BasicUserSeeder.SeedDemoBasicUser(userManager);
 
             app.UseCors("MyCorsPolicy");
 
