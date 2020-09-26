@@ -96,10 +96,15 @@
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, Role.Basic.ToString());
-                    //var verificationUri = await SendVerificationEmail(user, origin);
-                    //TODO: Attach Email Service here and configure it via appsettings
-                    //await _emailService.SendAsync(new Application.Dtos.Email.EmailRequest() { From = "mail@codewithmukesh.com", To = user.Email, Body = $"Please confirm your account by visiting this URL {verificationUri}", Subject = "Confirm Registration" });
-                    //return new string(user.Id, message: $"User Registered. Please confirm your account by visiting this URL {verificationUri}");
+                    var verificationUri = await SendVerificationEmail(user, origin);
+
+                    var emailRequest = new EmailRequest()
+                    {
+                        Body = $"Please confirm your account by visiting this URL {verificationUri}",
+                        To = user.Email,
+                        Subject = "Confirm Email Address",
+                    };
+                    await _emailService.SendAsync(emailRequest);
                     return new Response<string>(user.Id, message: $"User Registered.");
                 }
                 else
@@ -224,15 +229,15 @@
         public async Task<Response<string>> ResetPassword(ResetPasswordRequest model)
         {
             var account = await _userManager.FindByEmailAsync(model.Email);
-            if (account == null) throw new ApiException($"No Accounts Registered with {model.Email}.");
+            if (account == null) throw new ApiException($"No accounts registered with {model.Email}.");
             var result = await _userManager.ResetPasswordAsync(account, model.Token, model.Password);
             if (result.Succeeded)
             {
-                return new Response<string>(model.Email, message: $"Password Resetted.");
+                return new Response<string>(model.Email, message: $"Password Reset.");
             }
             else
             {
-                throw new ApiException($"Error occured while reseting the password.");
+                throw new ApiException($"Error occured while resetting the password.");
             }
         }
     }
