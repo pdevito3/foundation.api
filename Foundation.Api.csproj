@@ -3,7 +3,7 @@
   <PropertyGroup>
 
     <PackageType>Template</PackageType>
-    <PackageVersion>0.1.2</PackageVersion>
+    <PackageVersion>0.2.0-pre.1.0.0</PackageVersion>
     <PackageId>Foundation.Api</PackageId>
     <Title>Foundation API</Title>
     <Authors>Paul DeVito</Authors>
