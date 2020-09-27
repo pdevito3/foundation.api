@@ -41,6 +41,7 @@
             services.AddScoped<IAccountService, AccountService>();
             #endregion
 
+            // for craftsman updates to work appropriately, do not remove identity option lines
             services.Configure<IdentityOptions>(options =>
             {
                 options.User.RequireUniqueEmail = true;
