@@ -3,7 +3,7 @@
   <PropertyGroup>
 
     <PackageType>Template</PackageType>
-    <PackageVersion>0.2.0-pre.2.0.0</PackageVersion>
+    <PackageVersion>0.3.0</PackageVersion>
     <PackageId>Foundation.Api</PackageId>
     <Title>Foundation API</Title>
     <Authors>Paul DeVito</Authors>
@@ -11,7 +11,7 @@
     <PackageTags>dotnet-new;templates;webapi;restfulapi;rest</PackageTags>
     <RepositoryUrl>https://github.com/pdevito3/foundation.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <TargetFrameworks>netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
 
     <IncludeContentInPack>true</IncludeContentInPack>
