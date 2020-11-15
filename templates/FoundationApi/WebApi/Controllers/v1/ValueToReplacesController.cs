@@ -50,6 +50,9 @@
             {
                 totalCount = valueToReplacesFromRepo.TotalCount,
                 pageSize = valueToReplacesFromRepo.PageSize,
+                currentPageSize = valueToReplacesFromRepo.CurrentPageSize,
+                currentStartIndex = valueToReplacesFromRepo.CurrentStartIndex,
+                currentEndIndex = valueToReplacesFromRepo.CurrentEndIndex,
                 pageNumber = valueToReplacesFromRepo.PageNumber,
                 totalPages = valueToReplacesFromRepo.TotalPages,
                 hasPrevious = valueToReplacesFromRepo.HasPrevious,
