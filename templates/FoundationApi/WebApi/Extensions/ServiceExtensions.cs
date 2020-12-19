@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
-    using NSwag;
+    using Microsoft.OpenApi.Models;
     using System;
 
     public static class ServiceExtensions
