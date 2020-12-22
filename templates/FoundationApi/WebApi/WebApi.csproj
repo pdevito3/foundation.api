@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Paul\Documents\repos\Foundation.Api\templates\FoundationApi\WebApi\WebApi.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591;</NoWarn>
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

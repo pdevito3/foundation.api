@@ -28,14 +28,14 @@ namespace WebApi
 
             try
             {
-                Log.Information("Starting application.");
+                Log.Information("Starting application");
                 CreateHostBuilder(args)
                     .Build()
                     .Run();
             }
             catch (Exception e)
             {
-                Log.Error(e, "The appication failed to start correctly.");
+                Log.Error(e, "The application failed to start correctly");
                 throw;
             }
             finally
