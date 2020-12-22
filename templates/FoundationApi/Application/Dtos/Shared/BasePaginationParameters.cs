@@ -2,10 +2,10 @@
 {
     public abstract class BasePaginationParameters
     {
-        public virtual int MaxPageSize { get; } = 20;
-        public virtual int PageNumber { get; set; } = 1;
+        internal virtual int MaxPageSize { get; } = 20;
+        internal virtual int DefaultPageSize { get; set; } = 10;
 
-        public virtual int DefaultPageSize { get; set; } = 10;
+        public virtual int PageNumber { get; set; } = 1;
 
         public int PageSize
         {
