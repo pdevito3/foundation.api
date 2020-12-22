@@ -40,7 +40,7 @@ namespace WebApi
             }
             finally
             {
-                Log.Information("Shutting down application.");
+                Log.Information("Shutting down application");
                 Log.CloseAndFlush();
             }
         }
